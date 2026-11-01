@@ -378,25 +378,7 @@ local function create_markdown_command()
   if vim.fn.exists(":Markdown") == 2 then return end
 
   local commands_mod = require("markdown.commands")
-  local feat = require("markdown.config").feature_enabled
-  -- Mirrors commands/init.lua's own SUBCOMMAND_FEATURES gating exactly (a
-  -- subcommand name usually equals its gating feature; `table` maps to
-  -- either "table" or "tableview", and `gaps` (heading-level gap checker) is
-  -- gated by the `toc` feature since it's a sub-behavior of TOC generation).
-  local function enabled(name)
-    local names
-    if name == "table" then
-      names = { "table", "tableview" }
-    elseif name == "gaps" then
-      names = { "toc" }
-    else
-      names = { name }
-    end
-    for _, n in ipairs(names) do
-      if feat(n) then return true end
-    end
-    return false
-  end
+  local enabled = commands_mod.enabled
 
   local routes = {}
   for _, name in ipairs(commands_mod.names()) do

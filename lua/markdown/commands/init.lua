@@ -3,11 +3,64 @@ local M = {}
 
 local notify = require("markdown.util.notify").create("[markdown.commands]")
 
--- A subcommand name usually equals its gating feature; a few map to several
--- (enabled if ANY is on). Keeps "just enable tableview" == full table surface.
-local SUBCOMMAND_FEATURES = {
-  table = { "table", "tableview" },
-  gaps = { "toc" },
+---@class markdown.Subcommand
+---@field run fun(argv: string[], ctx?: table)
+---@field features? string[]  Enabled if ANY is on; defaults to the subcommand's own name
+---@field mod? string          Module exposing `complete(arglead, cmdline)` for nested completion
+---@field nested? boolean      The completer reads the cmdline, so deeper slots keep delegating to it
+
+--- A subcommand backed by a `markdown.commands.<name>` module (`run` plus, optionally,
+--- `complete`).
+---@param name string
+---@param nested? boolean  `true` when its completer reads the cmdline and so has
+---                        something to say beyond its own sub-subcommand slot; the
+---                        rest only know that first slot, and delegating deeper
+---                        would just echo their names into an argument position.
+---@param features? string[]
+---@return markdown.Subcommand
+local function module_command(name, nested, features)
+  local mod = "markdown.commands." .. name
+  return { run = require(mod).run, mod = mod, nested = nested, features = features }
+end
+
+-- One table for run, completion and gating, so a subcommand cannot be added to one
+-- and forgotten in another (`format` once was: the dispatcher ran it, `<Tab>`
+-- completed it, and the composer answered "unknown subcommand"). A subcommand name
+-- usually equals its gating feature; a few map to several (enabled if ANY is on),
+-- which keeps "just enable tableview" == the full table surface.
+---@type table<string, markdown.Subcommand>
+local commands = {
+  links = module_command("links", true),
+  -- `toc` has no completer of its own: past its name it takes no candidates.
+  toc = { run = require("markdown.commands.toc").run },
+  refs = module_command("refs", true),
+  table = module_command("table", true, { "table", "tableview" }),
+  render = module_command("render"),
+  preview = module_command("preview"),
+  mdview = module_command("mdview"),
+  create = module_command("create"),
+  scope = module_command("scope"),
+  list = module_command("list", true),
+  image = module_command("image"),
+  export = module_command("export"),
+  headings = module_command("headings", true),
+  -- `nested = true`: `format` takes an open-ended run of ops/flags, so every
+  -- slot after the first should keep offering the same candidate set (like
+  -- `table format`'s own multi-slot completion, one level up).
+  format = module_command("format", true),
+  headline_spacing = {
+    run = function()
+      local bufnr = vim.api.nvim_get_current_buf()
+      require("markdown.core.headline_spacing").apply_headl_separators(bufnr, { notify = true })
+    end,
+  },
+  gaps = {
+    run = function()
+      local bufnr = vim.api.nvim_get_current_buf()
+      require("markdown.core.heading_gaps").check(bufnr, {})
+    end,
+    features = { "toc" },
+  },
 }
 
 --- Whether the `:Markdown <command>` subcommand is enabled by feature gating.
@@ -15,37 +68,17 @@ local SUBCOMMAND_FEATURES = {
 ---@return boolean
 local function command_feature_enabled(command)
   local feat = require("markdown.config").feature_enabled
-  local names = SUBCOMMAND_FEATURES[command] or { command }
+  local names = commands[command] and commands[command].features or { command }
   for _, n in ipairs(names) do
     if feat(n) then return true end
   end
   return false
 end
 
-local commands = {
-  links = require("markdown.commands.links").run,
-  toc = require("markdown.commands.toc").run,
-  refs = require("markdown.commands.refs").run,
-  table = require("markdown.commands.table").run,
-  render = require("markdown.commands.render").run,
-  preview = require("markdown.commands.preview").run,
-  mdview = require("markdown.commands.mdview").run,
-  create = require("markdown.commands.create").run,
-  scope = require("markdown.commands.scope").run,
-  list = require("markdown.commands.list").run,
-  image = require("markdown.commands.image").run,
-  export = require("markdown.commands.export").run,
-  headings = require("markdown.commands.headings").run,
-  format = require("markdown.commands.format").run,
-  headline_spacing = function()
-    local bufnr = vim.api.nvim_get_current_buf()
-    require("markdown.core.headline_spacing").apply_headl_separators(bufnr, { notify = true })
-  end,
-  gaps = function()
-    local bufnr = vim.api.nvim_get_current_buf()
-    require("markdown.core.heading_gaps").check(bufnr, {})
-  end,
-}
+--- Whether a subcommand is enabled by feature gating (`features` config).
+---@param name string
+---@return boolean
+function M.enabled(name) return command_feature_enabled(name) end
 
 --- Every subcommand name the dispatcher knows, sorted. `bindings/usrcmds.lua` builds the
 --- composer routes of `:Markdown` from this, so a subcommand added to `commands` above is
@@ -73,8 +106,8 @@ function M.execute(argv, ctx)
     return
   end
 
-  local fn = commands[command]
-  if not fn then
+  local entry = commands[command]
+  if not entry then
     notify.error(string.format("Unknown Markdown command: %s", command))
     return
   end
@@ -90,32 +123,8 @@ function M.execute(argv, ctx)
   end
 
   table.remove(argv, 1)
-  fn(argv, ctx)
+  entry.run(argv, ctx)
 end
-
--- Subcommands exposing their own `complete(arglead, cmdline)` for nested
--- completion. `nested = true` marks the ones that read the cmdline and so have
--- something to say beyond their own sub-subcommand slot; the rest only know
--- that first slot, and delegating deeper would just echo their sub-subcommand
--- names into an argument position.
-local sub_complete = {
-  links = { mod = "markdown.commands.links", nested = true },
-  refs = { mod = "markdown.commands.refs", nested = true },
-  table = { mod = "markdown.commands.table", nested = true },
-  render = { mod = "markdown.commands.render" },
-  preview = { mod = "markdown.commands.preview" },
-  mdview = { mod = "markdown.commands.mdview" },
-  create = { mod = "markdown.commands.create" },
-  scope = { mod = "markdown.commands.scope" },
-  list = { mod = "markdown.commands.list", nested = true },
-  image = { mod = "markdown.commands.image" },
-  export = { mod = "markdown.commands.export" },
-  headings = { mod = "markdown.commands.headings", nested = true },
-  -- `nested = true`: `format` takes an open-ended run of ops/flags, so every
-  -- slot after the first should keep offering the same candidate set (like
-  -- `table format`'s own multi-slot completion, one level up).
-  format = { mod = "markdown.commands.format", nested = true },
-}
 
 --- Completion for `:Markdown`: subcommand names, then delegates to the
 --- matched subcommand's own completion.
@@ -134,8 +143,8 @@ function M.complete(arglead, cmdline, _cursorpos)
   local slot = (arglead == "") and (#tokens + 1) or #tokens
 
   -- A first subcommand is complete and we are on one of its arguments.
-  local entry = first and slot >= 3 and sub_complete[first]
-  if entry then
+  local entry = first and slot >= 3 and commands[first]
+  if entry and entry.mod then
     if slot > 3 and not entry.nested then return {} end
     return require(entry.mod).complete(arglead, cmdline)
   end
