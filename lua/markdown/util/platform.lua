@@ -1,4 +1,5 @@
 ---@module 'markdown.util.platform'
+-- handrolled-ok: detects the same target opened twice in a row to rotate the opener, not a throttle
 ---@brief Cross-platform helpers (single system-opener for the whole plugin).
 ---@description
 --- One place for OS detection and "open this path/URL with the system default
