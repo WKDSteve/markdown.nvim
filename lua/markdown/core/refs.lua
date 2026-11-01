@@ -19,22 +19,21 @@ local cfg = require("markdown.config").get
 local list = require("lib.nvim.ui.list")
 
 local api = vim.api
-local uv = vim.uv or vim.loop
 
 local M = {}
 
 local NS = api.nvim_create_namespace("markdown_refs")
 
 -- Per-buffer state: extmark id -> last known anchor, the ordered anchor snapshot
--- (positional fallback), and the debounce timer.
----@type table<integer, { marks: table<integer,string>, last_list: string[], timer: any }>
+-- (positional fallback).
+---@type table<integer, { marks: table<integer,string>, last_list: string[] }>
 local S = {}
 
 ---@internal
 ---@param bufnr integer
----@return { marks: table<integer,string>, last_list: string[], timer: any }
+---@return { marks: table<integer,string>, last_list: string[] }
 local function state(bufnr)
-  S[bufnr] = S[bufnr] or { marks = {}, timer = nil }
+  S[bufnr] = S[bufnr] or { marks = {} }
   return S[bufnr]
 end
 
@@ -262,39 +261,35 @@ end
 -- Live tracking (debounced)
 -- ---------------------------------------------------------------------------
 
+local DEFAULT_DEBOUNCE_MS = 2000
+
+---One buffer-scoped debounce handle (lib.nvim.debounce.buffer: an independent timer per buffer, cleaned up
+---when the buffer goes away). The delay is read from the config on every change, so the handle is rebuilt
+---when `refs.debounce_ms` changed since it was made.
+---@type Lib.Debounce.BufferHandle|nil
+local reconcile_debounced
+---@type integer|nil
+local reconcile_ms
+
+---@param ms integer
+---@return Lib.Debounce.BufferHandle
+local function reconcile_handle(ms)
+  if not reconcile_debounced or reconcile_ms ~= ms then
+    if reconcile_debounced then reconcile_debounced.cancel_all() end
+    reconcile_ms = ms
+    reconcile_debounced = require("lib.nvim.debounce.buffer").new(function(bufnr)
+      if api.nvim_buf_is_valid(bufnr) then pcall(M.reconcile, bufnr, { silent = true }) end
+    end, { ms = ms })
+  end
+  return reconcile_debounced
+end
+
 --- Called on TextChanged in live mode. Debounces a reconcile by
 --- `config.refs.debounce_ms` (generous default to protect performance).
 ---@param bufnr integer
 function M.on_change(bufnr)
-  local st = state(bufnr)
-  local delay = (cfg().refs and cfg().refs.debounce_ms) or 2000
-
-  if st.timer then
-    st.timer:stop()
-    pcall(function() st.timer:close() end)
-    st.timer = nil
-  end
-
-  local timer = uv.new_timer()
-  if not timer then
-    -- No timer means no debounce, not no reconcile. Returning here would stop
-    -- the live view updating for the rest of the session without saying so, so
-    -- the reconcile runs once, scheduled, exactly as the debounced path does.
-    st.timer = nil
-    vim.schedule(function()
-      if api.nvim_buf_is_valid(bufnr) then pcall(M.reconcile, bufnr, { silent = true }) end
-    end)
-    return
-  end
-  st.timer = timer
-  timer:start(delay, 0, function()
-    timer:stop()
-    pcall(function() timer:close() end)
-    if st.timer == timer then st.timer = nil end
-    vim.schedule(function()
-      if api.nvim_buf_is_valid(bufnr) then pcall(M.reconcile, bufnr, { silent = true }) end
-    end)
-  end)
+  state(bufnr)
+  reconcile_handle((cfg().refs and cfg().refs.debounce_ms) or DEFAULT_DEBOUNCE_MS).call(bufnr)
 end
 
 --- Establish tracking for `bufnr` (baseline). Idempotent per buffer.
@@ -309,10 +304,7 @@ end
 function M.detach(bufnr)
   local st = S[bufnr]
   if not st then return end
-  if st.timer then
-    st.timer:stop()
-    pcall(function() st.timer:close() end)
-  end
+  if reconcile_debounced then reconcile_debounced.cancel(bufnr) end
   pcall(api.nvim_buf_clear_namespace, bufnr, NS, 0, -1)
   S[bufnr] = nil
 end

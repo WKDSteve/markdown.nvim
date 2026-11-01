@@ -290,25 +290,15 @@ function M.setup(cfg)
 
     if wrapcfg.auto_resize then
       local aug_resize = api.nvim_create_augroup("MarkdownNvimTableWrapResize", { clear = true })
-      local timer = nil
-      autocmd.create({ "VimResized", "WinResized" }, function()
-        if timer then
-          -- PERF-62: a stopped vim.defer_fn timer only closes itself from
-          -- inside its own callback -- one that never fires (because it was
-          -- stopped here) leaks its libuv handle for the rest of the session
-          -- unless it is closed explicitly too.
-          pcall(function() timer:stop() end)
-          pcall(function() timer:close() end)
-          timer = nil
-        end
-        timer = vim.defer_fn(function()
-          for _, bufnr in ipairs(api.nvim_list_bufs()) do
-            if api.nvim_buf_is_loaded(bufnr) and is_md(vim.bo[bufnr].filetype) then
-              pcall(require("markdown.commands.mdtable").reflow_auto_tables, bufnr)
-            end
+      -- lib.nvim.debounce closes the stopped timer itself (the PERF-62 leak this used to work around by hand)
+      local reflow = require("lib.nvim.debounce").new(function()
+        for _, bufnr in ipairs(api.nvim_list_bufs()) do
+          if api.nvim_buf_is_loaded(bufnr) and is_md(vim.bo[bufnr].filetype) then
+            pcall(require("markdown.commands.mdtable").reflow_auto_tables, bufnr)
           end
-        end, wrapcfg.resize_debounce_ms or 300)
-      end, {
+        end
+      end, wrapcfg.resize_debounce_ms or 300)
+      autocmd.create({ "VimResized", "WinResized" }, function() reflow.call() end, {
         group = aug_resize,
         desc = "[markdown.nvim] table-wrap: debounced reflow of auto-mode tables on resize",
       })
