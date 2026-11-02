@@ -31,7 +31,7 @@ return {
     -- short-name probe (`cmd /c for %I`) of the path resolver on Windows.
     -- `wsl`, `tmux` (and `sh` for the fzf probe on Linux) run the real fzf-lua window of pty_table_list_spec.lua.
     -- `nvim` is the embedded editor of the screen spec (table_render_screen_spec.lua); `taskkill` / `powershell` are how its handle is killed and checked on Windows.
-    spawn = { "rg", "cmd", "nvim", "taskkill", "powershell", "ps", "wsl", "tmux", "sh" },
+    spawn = { "rg", "cmd", "nvim", "taskkill", "powershell", "ps", "wsl", "tmux", "sh", "cat", "rm" },
   },
   -- The runner counts which commands, keymaps and autocommands the specs exercise (docs/SURFACE.md of testing.nvim);
   -- `scripts/test.sh surface` compares that with surface.baseline.json (a regression gate, not a percentage).
