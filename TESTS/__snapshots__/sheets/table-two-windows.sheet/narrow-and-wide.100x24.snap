@@ -1,0 +1,54 @@
+testing.nvim screen v1
+size: 100x24
+cursor: 1,1
+mode: n
+--- text
+01|# Title                                                               │# Title
+02|                                                                      │
+03|┌───────┬───────────────────┐                                         │┌───────┬───────────────────┐
+04|│ Name  │ Note              │                                         ││ Name  │ Note              │
+05|├───────┼───────────────────┤                                         │├───────┼───────────────────┤
+06|│ alpha │ a rather long     │                                         ││ alpha │ a rather long     │
+07|│       │ cell of text      │                                         ││       │ cell of text      │
+08|│       │ that is wide      │                                         ││       │ that is wide      │
+09|├───────┼───────────────────┤                                         │├───────┼───────────────────┤
+10|│ b     │ short             │                                         ││ b     │ short             │
+11|└───────┴───────────────────┘                                         │└───────┴───────────────────┘
+12|                                                                      │
+13|text below the table                                                  │text below the table
+14|~                                                                     │~
+15|~                                                                     │~
+16|~                                                                     │~
+17|~                                                                     │~
+18|~                                                                     │~
+19|~                                                                     │~
+20|~                                                                     │~
+21|~                                                                     │~
+22|~                                                                     │~
+23|~                                                                     │~
+24|
+--- attrs
+01|aaaaaaa                                                               baaaaaaa
+02|                                                                      b
+03|ccccccccccccccccccccccccccccc                                         bccccccccccccccccccccccccccccc
+04|c aaaa  c aaaa              c                                         bc aaaa  c aaaa              c
+05|ccccccccccccccccccccccccccccc                                         bccccccccccccccccccccccccccccc
+06|c       c                   c                                         bc       c                   c
+07|c       c                   c                                         bc       c                   c
+08|c       c                   c                                         bc       c                   c
+09|ccccccccccccccccccccccccccccc                                         bccccccccccccccccccccccccccccc
+10|c       c                   c                                         bc       c                   c
+11|ccccccccccccccccccccccccccccc                                         bccccccccccccccccccccccccccccc
+12|                                                                      b
+13|                                                                      b
+14|ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddd
+15|ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddd
+16|ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddd
+17|ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddd
+18|ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddd
+19|ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddd
+20|ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddd
+21|ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddd
+22|ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddd
+23|ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddd
+24|eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee

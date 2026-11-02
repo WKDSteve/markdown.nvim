@@ -169,3 +169,12 @@ them manually:
 
 Create `<name>_spec.lua` returning `function(H) … end` (use `H.eq` / `H.ok` /
 `H.scratch`) in `TESTS/`; it is discovered by name, no list to maintain.
+
+## Real pickers and windows (the live checks of the table features)
+
+* `TESTS/sheets/table-list-snacks.sheet.lua` runs the real snacks picker (through pickers.nvim) in a child
+  editor; `TESTS/pty_table_list_spec.lua` runs the real fzf-lua window in tmux (WSL on Windows,
+  testing.nvim's `testing.pty`; editor `TESTS/pty/init.lua`). Neither plugin is a dependency of markdown.nvim:
+  without them (CI) both are reported as `n/a  <reason>`, never as green.
+* `TESTS/sheets/table-two-windows.sheet.lua`: one buffer in two windows of different width.
+* `TESTS/sheets/table-truncate-motion.sheet.lua`: cursor motion over cut cells and back after insert mode.

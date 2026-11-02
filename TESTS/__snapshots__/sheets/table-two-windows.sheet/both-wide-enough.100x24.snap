@@ -1,0 +1,54 @@
+testing.nvim screen v1
+size: 100x24
+cursor: 1,46
+mode: n
+--- text
+01|# Title                                     │# Title
+02|                                            │
+03|┌───────┬──────────────────────────────────┐│┌───────┬──────────────────────────────────┐
+04|│ Name  │ Note                             │││ Name  │ Note                             │
+05|├───────┼──────────────────────────────────┤│├───────┼──────────────────────────────────┤
+06|│ alpha │ a rather long cell of text that  │││ alpha │ a rather long cell of text that  │
+07|│       │ is wide                          │││       │ is wide                          │
+08|├───────┼──────────────────────────────────┤│├───────┼──────────────────────────────────┤
+09|│ b     │ short                            │││ b     │ short                            │
+10|└───────┴──────────────────────────────────┘│└───────┴──────────────────────────────────┘
+11|                                            │
+12|text below the table                        │text below the table
+13|~                                           │~
+14|~                                           │~
+15|~                                           │~
+16|~                                           │~
+17|~                                           │~
+18|~                                           │~
+19|~                                           │~
+20|~                                           │~
+21|~                                           │~
+22|~                                           │~
+23|~                                           │~
+24|
+--- attrs
+01|aaaaaaa                                     baaaaaaa
+02|                                            b
+03|ccccccccccccccccccccccccccccccccccccccccccccbcccccccccccccccccccccccccccccccccccccccccccc
+04|c aaaa  c aaaa                             cbc aaaa  c aaaa                             c
+05|ccccccccccccccccccccccccccccccccccccccccccccbcccccccccccccccccccccccccccccccccccccccccccc
+06|c       c                                  cbc       c                                  c
+07|c       c                                  cbc       c                                  c
+08|ccccccccccccccccccccccccccccccccccccccccccccbcccccccccccccccccccccccccccccccccccccccccccc
+09|c       c                                  cbc       c                                  c
+10|ccccccccccccccccccccccccccccccccccccccccccccbcccccccccccccccccccccccccccccccccccccccccccc
+11|                                            b
+12|                                            b
+13|ddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+14|ddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+15|ddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+16|ddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+17|ddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+18|ddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+19|ddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+20|ddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+21|ddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+22|ddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+23|ddddddddddddddddddddddddddddddddddddddddddddbddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+24|eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
