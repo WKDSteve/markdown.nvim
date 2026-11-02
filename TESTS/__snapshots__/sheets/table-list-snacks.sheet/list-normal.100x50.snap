@@ -1,0 +1,104 @@
+testing.nvim screen v1
+size: 100x50
+--- text
+01|# Doc
+02|
+03|| Name | Note |
+04|| --- | --- |
+05|| a | first |
+06|| b | second |
+07|
+08|text
+09|
+10|| X | Y |
+11|| - | - |
+12|| 1 | 2 |
+13|
+14|tail
+15|~
+16|~        ╭─────────────────────────────── Markdown tables ────────────────────────────────╮
+17|~        │                                                                           2/2 │
+18|~        │────────────────────────────────────────────────────────────────────────────────│
+19|~        │ 1. doc.md:3  Name | Note  (2 rows)                                             │
+20|~        │ 2. doc.md:10  X | Y  (1 rows)                                                  │
+21|~        │───────────────────────────────── [normal] table ───────────────────────────────│
+22|~        │  1 # Doc                                                                       │
+23|~        │  2                                                                             │
+24|~        │  3 | Name | Note |                                                             │
+25|~        │  4 | --- | --- |                                                               │
+26|~        │  5 | a | first |                                                               │
+27|~        │  6 | b | second |                                                              │
+28|~        ╰────────────────────────────────────────────────────────────────────────────────╯
+29|~
+30|~
+31|~
+32|~
+33|~
+34|~
+35|~
+36|~
+37|~
+38|~
+39|~
+40|~
+41|~
+42|~
+43|~
+44|~
+45|~
+46|~
+47|~
+48|~
+49|~
+50|####################################################################################################
+--- attrs
+01|aaaaa
+02|
+03|b aaaaab aaaaab
+04|b bbb b bbb b
+05|b   b       b
+06|b   b        b
+07|
+08|
+09|
+10|b aab aab
+11|b b b b b
+12|b   b   b
+13|
+14|
+15|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+16|cccccccccddddddddddddddddddddddddddddddddaaaaaaaaaaaaaaaaadddddddddddddddddddddddddddddddddccccccccc
+17|cccccccccdeeddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddfffddccccccccc
+18|cccccccccddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddccccccccc
+19|cccccccccdghhgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggdccccccccc
+20|cccccccccddiiddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddccccccccc
+21|cccccccccddddddddddddddddddddddddddddddddddaaaaaaaaaaaaaaaaddddddddddddddddddddddddddddddddccccccccc
+22|cccccccccdffffjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjdccccccccc
+23|cccccccccdffffdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddccccccccc
+24|cccccccccdffffedjjjjjedjjjjjeddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddccccccccc
+25|cccccccccdffffedeeededeeededdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddccccccccc
+26|cccccccccdffffedddedddddddeddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddccccccccc
+27|cccccccccdffffedddeddddddddedddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddccccccccc
+28|cccccccccddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddccccccccc
+29|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+30|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+31|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+32|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+33|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+34|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+35|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+36|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+37|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+38|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+39|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+40|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+41|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+42|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+43|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+44|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+45|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+46|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+47|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+48|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+49|cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+50|####################################################################################################

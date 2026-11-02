@@ -11,7 +11,7 @@ return {
   title = "markdown.nvim: :Markdown table list in the snacks picker",
   task = "markdown.nvim/live-tests-im-echten-editor-snacks-fzf-lua-folds-insert-modu",
   engine = "rpc",
-  sizes = { { rows = 36, cols = 100 } },
+  sizes = { { rows = 50, cols = 100 } },
   requires = {
     {
       lua = P .. '.have({ "snacks.nvim", "pickers.nvim" })',
@@ -59,7 +59,7 @@ return {
     { wait = [[vim.wait(300, function() return false end) or true]], note = "let the picker draw" },
     {
       screen = "list-normal",
-      masks = { { row = 36 } },
+      masks = { { row = 50 } },
       cursor = false,
       mode = false,
       note = "the list with the preview of the file around the table",
@@ -68,7 +68,7 @@ return {
     { wait = [[vim.wait(500, function() return false end) or true]], note = "let the picker draw" },
     {
       screen = "list-table",
-      masks = { { row = 36 } },
+      masks = { { row = 50 } },
       cursor = false,
       mode = false,
       note = "the preview shows the formatted table",
