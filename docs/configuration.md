@@ -69,6 +69,13 @@ require("markdown").setup({
     fold   = true, -- fold/unfold entries (only shown on a heading)
     toc    = true, -- Insert/Refresh TOC
     refs   = true, -- Sync References
+    checkbox = true, -- Cycle Checkbox and the direct states (on a checkbox line)
+  },
+
+  -- Task-list checkboxes: the states the keys, the double-click and the menu step through,
+  -- one character each. A state outside the list (`[-]`) starts it over.
+  checkbox = {
+    states = { " ", "x", "~" },
   },
 
   -- Which hosts may drive this plugin. `ui_menu = false` keeps ui.nvim's

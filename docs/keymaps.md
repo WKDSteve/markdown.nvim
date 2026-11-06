@@ -88,6 +88,8 @@ in your config, or let the plugin handle it via the FileType autocmd.
 | Key | Mode | Action |
 |-----|------|--------|
 | `<2-LeftMouse>` | n | On a checkbox: step it. Else open anchor / image / URL / file under cursor |
+| `<C-CR>`, `<S-CR>` | n | Step the checkbox of the cursor line (needs a terminal with CSI-u / Kitty keys) |
+| `<leader>mx` | n | Step the checkbox of the cursor line, in every terminal |
 | `<C-LeftMouse>` | n | Same |
 | `ma` | n | Same |
 | `mi` | n | Open image under cursor |

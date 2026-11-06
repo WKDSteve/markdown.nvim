@@ -327,7 +327,7 @@ GitHub-only, not duplicated into this helpfile.
 `menu`                                             *markdown.nvim-config-menu*
   Context-aware entries for nvzone/menu (soft, opt-in). markdown.nvim does not
   depend on a menu plugin; it provides entries and a host composes them. >
-    menu = { enable = true, fold = true, toc = true, refs = true }
+    menu = { enable = true, fold = true, toc = true, refs = true, checkbox = true }
 <
   The fold entries (Fold/Unfold Heading, Fold below H2 toggle, Unfold All) appear only when
   the cursor is on a heading; TOC and refs entries are always available. Get the
