@@ -90,6 +90,18 @@ function M.check()
     )
   )
 
+  info(
+    ("checkbox states: %s (keys <C-CR>, <S-CR> need a terminal with CSI-u keys; <leader>mx works everywhere)"):format(
+      table.concat(
+        vim.tbl_map(
+          function(s) return "[" .. s .. "]" end,
+          require("markdown.core.checkbox").states()
+        ),
+        " -> "
+      )
+    )
+  )
+
   -- Optional host plugins for :Markdown render / preview.
   ok(
     ("native rendering available (:Markdown render; render.enabled = %s)"):format(

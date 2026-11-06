@@ -83,6 +83,16 @@ return {
       mode = "n",
       desc = "Same, silent on miss; heading -> fold toggle (mouse)",
     },
+    {
+      action = "cursor_action_2click",
+      mode = "n",
+      desc = "Double-click: checkbox step on a box, else cursor_action_mouse",
+    },
+    {
+      action = "checkbox_cycle",
+      mode = "n",
+      desc = "Step the checkbox of the cursor line: [ ] -> [x] -> [~] -> [ ]",
+    },
     { action = "open_image", mode = "n", desc = "Open image under cursor" },
     {
       action = "jump_anchor",
@@ -272,8 +282,29 @@ return {
         id = "cursor_action_2click",
         lhs = "<2-LeftMouse>",
         mode = "n",
-        action = "cursor_action_mouse",
-        desc = "Cursor action / heading fold (silent miss)",
+        action = "cursor_action_2click",
+        desc = "Checkbox step on a box; else cursor action / heading fold (silent miss)",
+      },
+      {
+        id = "checkbox_cycle_ctrl",
+        lhs = "<C-CR>",
+        mode = "n",
+        action = "checkbox_cycle",
+        desc = "Cycle the checkbox of the cursor line (needs CSI-u keys)",
+      },
+      {
+        id = "checkbox_cycle_shift",
+        lhs = "<S-CR>",
+        mode = "n",
+        action = "checkbox_cycle",
+        desc = "Cycle the checkbox of the cursor line (needs CSI-u keys)",
+      },
+      {
+        id = "checkbox_cycle",
+        lhs = "<leader>mx",
+        mode = "n",
+        action = "checkbox_cycle",
+        desc = "Cycle the checkbox of the cursor line",
       },
       {
         id = "cursor_action_cclick",

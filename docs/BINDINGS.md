@@ -45,8 +45,11 @@ with `keymaps.<id> = "<lhs>"` / `= false`.
 | `fold_prev_heading` | `zi` | n | `fold_prev_heading` | | Fold prev heading |
 | `fold_h2plus` | `zk` | n | `fold_h2plus` | | Fold below H2 (toggle outline) |
 | `toc` | `<leader>toc` | n | `toc` | | Insert/refresh TOC |
-| `cursor_action_2click` | `<2-LeftMouse>` | n | `cursor_action_mouse` | | Cursor action / heading fold (silent miss) |
+| `cursor_action_2click` | `<2-LeftMouse>` | n | `cursor_action_2click` | | Checkbox step on a box; else cursor action / heading fold (silent miss) |
 | `cursor_action_cclick` | `<C-LeftMouse>` | n | `cursor_action_mouse` | | Cursor action (silent miss) |
+| `checkbox_cycle_ctrl` | `<C-CR>` | n | `checkbox_cycle` | | Cycle the checkbox of the cursor line (needs CSI-u keys) |
+| `checkbox_cycle_shift` | `<S-CR>` | n | `checkbox_cycle` | | Cycle the checkbox of the cursor line (needs CSI-u keys) |
+| `checkbox_cycle` | `<leader>mx` | n | `checkbox_cycle` | | Cycle the checkbox of the cursor line |
 | `cursor_action` | `ma` | n | `cursor_action` | | Cursor action |
 | `open_image` | `mi` | n | `open_image` | | Open image |
 | `jump_anchor` | `mj` | n | `jump_anchor` | | Jump to anchor |
@@ -133,6 +136,8 @@ remapping, if you prefer.
 | `toc` | n | Insert/refresh TOC (`{count}` = max level) |
 | `cursor_action` | n | Open anchor/image/URL/file under cursor |
 | `cursor_action_mouse` | n | Same, silent on miss; heading → fold toggle (mouse) |
+| `cursor_action_2click` | n | Double-click: checkbox step on a box, else `cursor_action_mouse` |
+| `checkbox_cycle` | n | Step the checkbox of the cursor line: `[ ]` → `[x]` → `[~]` → `[ ]` |
 | `open_image` | n | Open image under cursor |
 | `jump_anchor` | n | Jump to anchor under cursor |
 | `heading_inc` | n | Increase heading level (`{count}` levels) |

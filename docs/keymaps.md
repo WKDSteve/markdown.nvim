@@ -87,7 +87,7 @@ in your config, or let the plugin handle it via the FileType autocmd.
 
 | Key | Mode | Action |
 |-----|------|--------|
-| `<2-LeftMouse>` | n | Open anchor / image / URL / file under cursor |
+| `<2-LeftMouse>` | n | On a checkbox: step it. Else open anchor / image / URL / file under cursor |
 | `<C-LeftMouse>` | n | Same |
 | `ma` | n | Same |
 | `mi` | n | Open image under cursor |

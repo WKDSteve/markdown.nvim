@@ -47,6 +47,13 @@ local DEFAULTS = {
     fold = true, -- fold/unfold entries (only shown on a heading)
     toc = true, -- Insert/Refresh TOC
     refs = true, -- Sync References
+    checkbox = true, -- Cycle Checkbox and the direct states (only shown on a checkbox line)
+  },
+
+  -- Task-list checkboxes (`<C-CR>`, `<S-CR>`, `<leader>mx`, a double-click on the box, the menu):
+  -- the states they step through, one character each. A state outside the list (`[-]`) starts it over.
+  checkbox = {
+    states = { " ", "x", "~" },
   },
 
   -- Which hosts may drive this plugin. `ui_menu = false` keeps ui.nvim's
@@ -124,7 +131,13 @@ local DEFAULTS = {
     },
     bullets = { enabled = true, icons = { "•", "◦", "▪" } },
     ordered = { enabled = true }, -- the number of a `1.` / `1)` list item gets its own colour
-    checkboxes = { enabled = true, unchecked = "☐", checked = "☑", partial = "◐" },
+    checkboxes = {
+      enabled = true,
+      unchecked = "☐",
+      checked = "☑",
+      partial = "◐",
+      cancelled = "☒",
+    },
     -- icons: the language label gets the icon of nvim-web-devicons / mini.icons; icon_map = { lua = "L" } overrides it
     code = { enabled = true, background = true, label = true, icons = true, icon_map = {} },
     rules = { enabled = true, char = "─" },

@@ -171,7 +171,7 @@ local function split_line(line)
     or line:match("^#+%s+", pos)
   if marker then
     lead, pos = lead .. marker, pos + #marker
-    local checkbox = line:match("^%[[ xX]%]%s+", pos)
+    local checkbox = line:match("^%[[ xX%-~]%]%s+", pos)
     if checkbox then
       lead, pos = lead .. checkbox, pos + #checkbox
     end

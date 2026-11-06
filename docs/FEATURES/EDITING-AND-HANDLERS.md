@@ -53,7 +53,7 @@ pdfport.nvim, when installed (see
   `anchor/jump.lua`
 - **Keymaps:** `<2-LeftMouse>`/`<C-LeftMouse>` (silent — a miss is a normal,
   frequent mouse-move outcome; double-click on a heading toggles its fold
-  instead), `ma` (same, non-silent), `mi` (open image specifically), `mj`
+  and on a checkbox steps it instead), `ma` (same, non-silent), `mi` (open image specifically), `mj`
   (jump to anchor specifically) — ids `cursor_action_2click`,
   `cursor_action_cclick`, `cursor_action`, `open_image`, `jump_anchor` (see
   [keymaps.md](../keymaps.md#cursor-action-handler))
@@ -76,3 +76,23 @@ discoverability rather than reimplemented.
 - **Requires:** images.nvim (optional host, soft dependency — warns instead
   of erroring when absent). See
   [INTEGRATIONS.md](INTEGRATIONS.md#imagesnvim)
+
+## Checkboxes
+
+`- [ ] task` steps through open `[ ]`, done `[x]` and cancelled `[~]`, in every list
+kind (`-`, `*`, `+`, `1.`, `1)`), indented, nested or quoted. Only the state
+character is rewritten, so CRLF, the text and the cursor stay. A box in a fenced
+code block is an example and is left alone; `[-]` (drawn as partial) starts the
+cycle over.
+
+- **Module:** `core/checkbox.lua` (`cycle`, `set`, `at`, `parse`)
+- **Keymaps:** `<C-CR>`, `<S-CR>` (ids `checkbox_cycle_ctrl`, `checkbox_cycle_shift`;
+  anywhere on the line, a line without a box does nothing), `<leader>mx`
+  (`checkbox_cycle`, the fallback for a terminal without CSI-u / Kitty keys, where the
+  other two arrive as `<CR>`), `<2-LeftMouse>` on the box itself
+- **Menu:** Cycle Checkbox and the direct states, on a checkbox line only
+  ([menu.md](../menu.md))
+- **Config:** `checkbox.states` (default `{ " ", "x", "~" }`, one character each),
+  `render.checkboxes.cancelled` (default `☒`), `menu.checkbox`
+- **Browser preview:** mdview.nvim draws only `[ ]` and `[x]` as boxes (comrak's task
+  list); `[~]` shows as literal text there

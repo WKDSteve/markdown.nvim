@@ -10,13 +10,42 @@
 ---   -- prepend `items` to your custom menu table, then menu.open(composed)
 --- <
 --- Entries are context-aware: the fold actions only appear when the cursor sits
---- on an ATX heading. Everything is opt-out via `config.menu` (see DEFAULTS).
+--- on an ATX heading, the checkbox actions only on a checkbox line. Everything is
+--- opt-out via `config.menu` (see DEFAULTS).
 
 local M = {}
 
 --- Whether the cursor is currently on an ATX heading line (`#`, `##`, …).
 ---@return boolean
 local function on_heading() return vim.api.nvim_get_current_line():match("^%s*#+%s") ~= nil end
+
+--- Menu labels of the states the default cycle knows; another state shows as itself.
+---@type table<string, string>
+local STATE_LABELS = { [" "] = "Open", x = "Done", ["~"] = "Cancelled" }
+
+--- The checkbox entries for the cursor line, empty on a line without a box. They
+--- capture buffer and row: a menu runs its entry after the cursor may have moved.
+---@return table[]
+local function checkbox_items()
+  local checkbox = require("markdown.core.checkbox")
+  local buf = vim.api.nvim_get_current_buf()
+  local row = vim.api.nvim_win_get_cursor(0)[1]
+  if not checkbox.at(buf, row) then return {} end
+  local out = {
+    {
+      name = "Cycle Checkbox",
+      cmd = function() checkbox.cycle(buf, row) end,
+      rtxt = "<C-CR>",
+    },
+  }
+  for _, state in ipairs(checkbox.states()) do
+    out[#out + 1] = {
+      name = "Checkbox: " .. (STATE_LABELS[state] or ("[" .. state .. "]")),
+      cmd = function() checkbox.set(state, buf, row) end,
+    }
+  end
+  return out
+end
 
 --- Whether a host that asks first (ui.nvim's `ui.menu`) may show the
 --- Markdown fly-out: `integrations.ui_menu` is not false and the `menu` group
@@ -48,6 +77,13 @@ function M.items(opts)
     items[#items + 1] = { name = "Fold / Unfold Heading", cmd = actions.fold_toggle, rtxt = "za" }
     items[#items + 1] = { name = "Fold below H2 (toggle)", cmd = actions.fold_h2plus, rtxt = "zk" }
     items[#items + 1] = { name = "Unfold All", cmd = actions.unfold_all, rtxt = "zu" }
+  end
+
+  -- Checkbox actions: only on a checkbox line.
+  if mcfg.checkbox ~= false then
+    local boxes = checkbox_items()
+    if #boxes > 0 and #items > 0 then items[#items + 1] = { name = "separator" } end
+    vim.list_extend(items, boxes)
   end
 
   -- Document-level actions (always available in a markdown buffer).

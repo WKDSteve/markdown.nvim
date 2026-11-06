@@ -32,7 +32,13 @@ M.DEFAULTS = {
   },
   bullets = { enabled = true, icons = { "•", "◦", "▪" } },
   ordered = { enabled = true }, -- the number of `1.` / `1)` list items gets its own colour
-  checkboxes = { enabled = true, unchecked = "☐", checked = "☑", partial = "◐" },
+  checkboxes = {
+    enabled = true,
+    unchecked = "☐",
+    checked = "☑",
+    partial = "◐",
+    cancelled = "☒",
+  },
   code = { enabled = true, background = true, label = true, icons = true, icon_map = {} },
   rules = { enabled = true, char = "─" },
   quotes = { enabled = true, icon = "▎", callouts = true },
@@ -943,11 +949,12 @@ function M.line_marks(line, ctx)
   if not hashes and not line:match("^%s*>") then
     local ind, marker = line:match("^(%s*)([-*+])%s")
     if marker and c.bullets.enabled then
-      local cb, ce = line:find("^%[[ xX%-]%]%s", #ind + 3)
+      local cb, ce = line:find("^%[[ xX%-~]%]%s", #ind + 3)
       if cb and c.checkboxes.enabled then
         local state = line:sub(cb + 1, cb + 1)
         local icon = (state == " " and c.checkboxes.unchecked)
           or (state == "-" and c.checkboxes.partial)
+          or (state == "~" and c.checkboxes.cancelled)
           or c.checkboxes.checked
         conceal(out, #ind, #ind + 1, "")
         conceal(out, cb - 1, cb + 2, icon)
@@ -965,11 +972,12 @@ function M.line_marks(line, ctx)
       out[#out + 1] =
         { col = #oind, opts = { end_col = marker_end, hl_group = "MarkdownRenderOrdered" } }
       text_from = marker_end + 2
-      local cb, ce = line:find("^%[[ xX%-]%]%s", marker_end + 2)
+      local cb, ce = line:find("^%[[ xX%-~]%]%s", marker_end + 2)
       if cb and c.checkboxes.enabled then
         local state = line:sub(cb + 1, cb + 1)
         local icon = (state == " " and c.checkboxes.unchecked)
           or (state == "-" and c.checkboxes.partial)
+          or (state == "~" and c.checkboxes.cancelled)
           or c.checkboxes.checked
         conceal(out, cb - 1, cb + 2, icon)
         text_from = ce + 1

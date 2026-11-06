@@ -2,8 +2,8 @@
 
 markdown.nvim ships context-aware entries for [nvzone/menu](https://github.com/nvzone/menu)
 but does **not** depend on it. The plugin *owns* its entries; a host composes
-them. Entries are context-aware — the fold actions only appear on a heading —
-and opt-out via `config.menu`:
+them. Entries are context-aware — the fold actions only appear on a heading, the
+checkbox actions only on a checkbox line — and opt-out via `config.menu`:
 
 ```lua
 menu = {
@@ -11,6 +11,7 @@ menu = {
   fold   = true, -- Fold/Unfold Heading, Fold below H2 (toggle), Unfold All (on a heading)
   toc    = true, -- Insert/Refresh TOC
   refs   = true, -- Sync References
+  checkbox = true, -- Cycle Checkbox, Checkbox: Open / Done / Cancelled (on a checkbox line)
 }
 ```
 

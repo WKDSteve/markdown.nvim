@@ -142,8 +142,8 @@ local DEFAULT_KEYMAPS = {
     id = "cursor_action_2click",
     mode = "n",
     lhs = "<2-LeftMouse>",
-    action = "cursor_action_mouse",
-    desc = "Cursor action / heading fold",
+    action = "cursor_action_2click",
+    desc = "Checkbox step / cursor action / heading fold",
   },
   {
     id = "cursor_action_cclick",
@@ -158,6 +158,29 @@ local DEFAULT_KEYMAPS = {
     lhs = "ma",
     action = "cursor_action",
     desc = "Cursor action",
+  },
+  -- `<C-CR>` and `<S-CR>` only reach Neovim from a terminal with CSI-u / Kitty keys; everywhere
+  -- else they arrive as a plain `<CR>` and this mapping never fires, hence `checkbox_cycle`.
+  {
+    id = "checkbox_cycle_ctrl",
+    mode = "n",
+    lhs = "<C-CR>",
+    action = "checkbox_cycle",
+    desc = "Cycle the checkbox of the cursor line",
+  },
+  {
+    id = "checkbox_cycle_shift",
+    mode = "n",
+    lhs = "<S-CR>",
+    action = "checkbox_cycle",
+    desc = "Cycle the checkbox of the cursor line",
+  },
+  {
+    id = "checkbox_cycle",
+    mode = "n",
+    lhs = "<leader>mx",
+    action = "checkbox_cycle",
+    desc = "Cycle the checkbox of the cursor line",
   },
   {
     id = "open_image",

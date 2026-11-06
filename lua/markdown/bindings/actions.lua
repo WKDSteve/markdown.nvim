@@ -81,6 +81,17 @@ function M.cursor_action() handler().handle_cursor_action() end
 -- also routes a double-click on a heading to a fold toggle (see the handler).
 ---Mouse-triggered variant of `cursor_action`: silent misses, double-click-to-fold.
 function M.cursor_action_mouse() handler().handle_cursor_action({ silent = true, mouse = true }) end
+---Double-click: on a checkbox it steps the box, anywhere else it is `cursor_action_mouse`.
+function M.cursor_action_2click()
+  local checkbox = require("markdown.core.checkbox")
+  if checkbox.cursor_on_box() then
+    checkbox.cycle()
+    return
+  end
+  M.cursor_action_mouse()
+end
+---Steps the checkbox of the cursor line (`[ ]` -> `[x]` -> `[~]`); no-op on a line without one.
+function M.checkbox_cycle() require("markdown.core.checkbox").cycle() end
 ---Opens the image under the cursor.
 function M.open_image() image().open() end
 ---Jumps to the anchor under the cursor.
