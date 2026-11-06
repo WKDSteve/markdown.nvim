@@ -22,11 +22,11 @@ function M.check()
   start("markdown.nvim")
 
   -- Neovim version.
-  if vim.fn.has("nvim-0.10") == 1 then
+  if vim.fn.has("nvim-0.11") == 1 then
     ok("Neovim " .. tostring(vim.version()))
   else
-    warn("markdown.nvim targets Neovim 0.10+ (vim.system, used unconditionally once rg is found)", {
-      "Upgrade Neovim to 0.10+",
+    warn("markdown.nvim targets Neovim 0.11+ (vim.system, used unconditionally once rg is found)", {
+      "Upgrade Neovim to 0.11+",
     })
   end
 
