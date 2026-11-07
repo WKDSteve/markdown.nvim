@@ -65,22 +65,21 @@ function M.parse(line)
   return { state = state, box_col = box_pos - 1, box_end = close - 1, state_col = box_pos }
 end
 
----Whether row `row` (1-based) lies inside a fenced code block.
+---Whether row `row` (1-based) lies inside a fenced code block. The fence rules
+---are `markdown.util.fence`'s, the ones the renderer draws by: "```code``` text"
+---is inline code, not an opener, so a box below it is still a box.
 ---@param bufnr integer
 ---@param row integer
 ---@return boolean
 local function in_fence(bufnr, row)
-  ---@type string|nil
-  local open_char
-  local open_len = 0
+  local fence = require("markdown.util.fence")
+  ---@type string|nil, integer|nil
+  local open_char, open_len
   for _, line in ipairs(api.nvim_buf_get_lines(bufnr, 0, row - 1, false)) do
-    local run = line:match("^%s*(```+)") or line:match("^%s*(~~~+)")
-    if run then
-      if not open_char then
-        open_char, open_len = run:sub(1, 1), #run
-      elseif run:sub(1, 1) == open_char and #run >= open_len and line:match("^%s*[`~]+%s*$") then
-        open_char = nil
-      end
+    if not open_char then
+      open_char, open_len = fence.open(line)
+    elseif fence.close(line, open_char, open_len) then
+      open_char, open_len = nil, nil
     end
   end
   return open_char ~= nil

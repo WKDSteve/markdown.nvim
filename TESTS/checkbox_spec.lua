@@ -97,6 +97,11 @@ return function(H)
     eq(cb.cycle(buf, 7), false, "another fence char does not close a fence")
     ok(cb.cycle(buf, 9), "a box after the tilde fence")
 
+    -- inline code at the start of a line opens no fence (markdown.util.fence, the renderer's rules)
+    buf = buffer({ "```inline``` is how code reads", "- [ ] task" })
+    ok(cb.cycle(buf, 2), "a box below inline code is a task")
+    eq(line(buf, 2), "- [x] task", "and it steps")
+
     buf = buffer({ "- [ ] read only" })
     vim.bo[buf].modifiable = false
     eq(cb.cycle(buf, 1), false, "a read-only buffer is refused, not an error")
