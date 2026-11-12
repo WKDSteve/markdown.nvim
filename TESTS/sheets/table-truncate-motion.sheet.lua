@@ -7,6 +7,7 @@
 -- it again. Left for a person: whether that feels usable.
 return {
   id = "table.truncate-motion",
+  feature = "markdown.table-truncate",
   title = "markdown.nvim: moving over truncated cells, and back after insert mode",
   task = "markdown.nvim/tabellen-kuerzung-und-zellen-popup-im-echten-fenster-pruefen",
   engine = "rpc",

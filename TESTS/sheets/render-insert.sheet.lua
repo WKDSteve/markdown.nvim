@@ -8,6 +8,7 @@
 -- only shows live.
 return {
   id = "render.insert",
+  feature = "markdown.render",
   title = "markdown.nvim: typing in a table and a heading in insert mode",
   task = "markdown.nvim/live-tests-im-echten-editor-snacks-fzf-lua-folds-insert-modu",
   engine = "rpc",

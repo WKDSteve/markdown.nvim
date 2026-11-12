@@ -4,6 +4,7 @@
 -- the screen and closes on the next cursor move.
 return {
   id = "table.popup-edge",
+  feature = "markdown.table-truncate",
   title = "markdown.nvim: table cell popup at the window edge",
   task = "markdown.nvim/tabellen-kuerzung-und-zellen-popup-im-echten-fenster-pruefen",
   engine = "rpc",

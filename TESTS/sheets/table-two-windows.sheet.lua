@@ -7,6 +7,7 @@
 -- before and after the resize. Left for a person: whether the narrow layout reads well.
 return {
   id = "table.two-windows",
+  feature = "markdown.table-render",
   title = "markdown.nvim: a table in two windows of different width on one buffer",
   task = "markdown.nvim/live-tests-im-echten-editor-snacks-fzf-lua-folds-insert-modu",
   engine = "rpc",

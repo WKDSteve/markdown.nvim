@@ -8,6 +8,7 @@
 -- your own setup shows.
 return {
   id = "table.list-pickers",
+  feature = "markdown.table-list",
   title = "markdown.nvim: :Markdown table list in your own picker setup",
   task = "markdown.nvim/live-tests-im-echten-editor-snacks-fzf-lua-folds-insert-modu",
   engine = "manual",

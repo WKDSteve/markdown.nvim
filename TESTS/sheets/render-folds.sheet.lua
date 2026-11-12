@@ -8,6 +8,7 @@
 -- everything. Left for a person: whether that reads well.
 return {
   id = "render.folds",
+  feature = "markdown.render",
   title = "markdown.nvim: rendering and table grid in folded regions",
   task = "markdown.nvim/live-tests-im-echten-editor-snacks-fzf-lua-folds-insert-modu",
   engine = "rpc",

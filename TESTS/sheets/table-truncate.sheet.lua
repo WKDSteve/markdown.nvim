@@ -5,6 +5,7 @@
 -- whether that reads well, and the collision with render-markdown/markview.
 return {
   id = "table.truncate",
+  feature = "markdown.table-truncate",
   title = "markdown.nvim: table cell truncation in a real window",
   task = "markdown.nvim/tabellen-kuerzung-und-zellen-popup-im-echten-fenster-pruefen",
   engine = "rpc",
