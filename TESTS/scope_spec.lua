@@ -52,47 +52,46 @@ return function(H)
     eq(s.first, 3, "get_backend fallback: block scope resolved correctly via builtin")
   end
 
-  -- ── The real color_my_ascii fence API, when actually on the runtimepath
-  -- (a real sibling checkout, added by TESTS/run.lua's add_sibling — soft,
-  -- not required), must be usable by scope.detect exactly like the builtin
-  -- backend: this is markdown.nvim's own side of the color_my_ascii
-  -- integration contract, previously exercised nowhere in this suite (only
-  -- the builtin fallback backend had any coverage). ──
+  -- ── The real color_my_ascii fence API must be usable by scope.detect
+  -- exactly like the builtin backend: this is markdown.nvim's own side of the
+  -- color_my_ascii integration contract. color_my_ascii.nvim is a required
+  -- test dependency (`deps` in .testing.lua, DEPS in scripts/test.sh), so a
+  -- missing fence API is a failure, not a skip. ──
   do
     local cma_ok, cma = pcall(require, "color_my_ascii")
-    if not (cma_ok and type(cma) == "table" and type(cma.fences) == "table") then
-      print("skip  scope_spec.lua: color_my_ascii not on the runtimepath (optional sibling)")
-    else
-      require("markdown.config").setup({ fenced_scope = { provider = "color_my_ascii" } })
-      scope._reset_backend()
-      local buf = H.scratch("markdown")
-      api.nvim_buf_set_lines(buf, 0, -1, false, {
-        "# Outer", -- 1
-        "", -- 2
-        "```markdown", -- 3
-        "## Inner A", -- 4
-        "", -- 5
-        "## Inner B", -- 6
-        "```", -- 7
-        "", -- 8
-        "## Outer B", -- 9
-      })
+    ok(
+      cma_ok and type(cma) == "table" and type(cma.fences) == "table",
+      "color_my_ascii fence API present"
+    )
+    require("markdown.config").setup({ fenced_scope = { provider = "color_my_ascii" } })
+    scope._reset_backend()
+    local buf = H.scratch("markdown")
+    api.nvim_buf_set_lines(buf, 0, -1, false, {
+      "# Outer", -- 1
+      "", -- 2
+      "```markdown", -- 3
+      "## Inner A", -- 4
+      "", -- 5
+      "## Inner B", -- 6
+      "```", -- 7
+      "", -- 8
+      "## Outer B", -- 9
+    })
 
-      local inside = scope.detect(buf, 3) -- 0-indexed row 3 = "## Inner A"
-      ok(inside and inside.kind == "block", "cma backend: cursor inside block -> block scope")
-      ---@cast inside -nil
-      eq(inside.first, 4, "cma backend: block scope first line (1-indexed interior start)")
-      eq(inside.last, 6, "cma backend: block scope last line (1-indexed interior end)")
+    local inside = scope.detect(buf, 3) -- 0-indexed row 3 = "## Inner A"
+    ok(inside and inside.kind == "block", "cma backend: cursor inside block -> block scope")
+    ---@cast inside -nil
+    eq(inside.first, 4, "cma backend: block scope first line (1-indexed interior start)")
+    eq(inside.last, 6, "cma backend: block scope last line (1-indexed interior end)")
 
-      local outside = scope.detect(buf, 0) -- "# Outer"
-      ok(outside and outside.kind == "buffer", "cma backend: cursor outside block -> buffer scope")
-      ---@cast outside -nil
-      ok(scope.is_excluded(outside, 4), "cma backend: buffer scope excludes the fenced interior")
-      ok(not scope.is_excluded(outside, 9), "cma backend: buffer scope keeps the outer heading")
+    local outside = scope.detect(buf, 0) -- "# Outer"
+    ok(outside and outside.kind == "buffer", "cma backend: cursor outside block -> buffer scope")
+    ---@cast outside -nil
+    ok(scope.is_excluded(outside, 4), "cma backend: buffer scope excludes the fenced interior")
+    ok(not scope.is_excluded(outside, 9), "cma backend: buffer scope keeps the outer heading")
 
-      require("markdown.config").setup({})
-      scope._reset_backend()
-    end
+    require("markdown.config").setup({})
+    scope._reset_backend()
   end
 
   require("markdown.config").setup({})
