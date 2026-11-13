@@ -102,3 +102,26 @@ question each page answers.
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 markdown.nvim is released under the [MIT License](https://opensource.org/licenses/MIT).
+
+<!-- connections:begin (written by the app-icons tool of the workshop; change integrations.json there, not this block) -->
+## Connections
+
+![markdown.nvim: what it uses and what uses it](assets/graphs/markdown.nvim.png)
+
+**Uses**
+
+- [color_my_ascii.nvim](https://github.com/WKDSteve/color_my_ascii.nvim): markdown.nvim lets color_my_ascii.nvim color the fenced code blocks (`fenced_scope.provider = "auto"`) and falls back to its own coloring without it. ([picture](assets/graphs/pair/markdown.nvim--color_my_ascii.nvim.png))
+- [hover.nvim](https://github.com/WKDSteve/hover.nvim): The hover of markdown.nvim classifies a link target and builds its preview with hover.nvim (`hover.classify`, `hover.preview.text`). ([picture](assets/graphs/pair/markdown.nvim--hover.nvim.png))
+- [images.nvim](https://github.com/WKDSteve/images.nvim): The image command of markdown.nvim hands the picture to images.nvim when it is installed. ([picture](assets/graphs/pair/markdown.nvim--images.nvim.png))
+- [mdview.nvim](https://github.com/WKDSteve/mdview.nvim): markdown.nvim offers `:Markdown preview` and `:Markdown mdview` when mdview.nvim is installed. ([picture](assets/graphs/pair/markdown.nvim--mdview.nvim.png))
+- [pdfport.nvim](https://github.com/WKDSteve/pdfport.nvim): markdown.nvim opens a PDF that a link points at in a new buffer through pdfport.nvim (`pdfport.open`). ([picture](assets/graphs/pair/markdown.nvim--pdfport.nvim.png))
+- [pickers.nvim](https://github.com/WKDSteve/pickers.nvim): The table list of markdown.nvim picks through pickers.nvim (`pickers.preview_modes`) unless `picker = "builtin"` is set. ([picture](assets/graphs/pair/markdown.nvim--pickers.nvim.png))
+- [ui.nvim](https://github.com/WKDSteve/ui.nvim): markdown.nvim confirms the deletion of a link with `ui.kit.confirm` of ui.nvim when it is installed. ([picture](assets/graphs/pair/markdown.nvim--ui.nvim.png))
+- [lib.nvim](https://github.com/WKDSteve/lib.nvim): the shared base of the plugins.
+
+**Used by**
+
+- [buffer-ctx.nvim](https://github.com/WKDSteve/buffer-ctx.nvim): With markdown.nvim installed, `:Insert mdlink` and `:Copy mdlink` of buffer-ctx.nvim use its link builder (`markdown.commands.markdown_links`). ([picture](assets/graphs/pair/buffer-ctx.nvim--markdown.nvim.png))
+- [cascade.nvim](https://github.com/WKDSteve/cascade.nvim): In markdown buffers, cascade.nvim consults the table mode of markdown.nvim (`markdown.core.table_mode`) before it acts. ([picture](assets/graphs/pair/cascade.nvim--markdown.nvim.png))
+- [images.nvim](https://github.com/WKDSteve/images.nvim): images.nvim resolves paths with the resolver of markdown.nvim (`markdown.util.path`) when it is installed, and with its own otherwise. ([picture](assets/graphs/pair/images.nvim--markdown.nvim.png))
+<!-- connections:end -->
