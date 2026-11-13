@@ -1,3 +1,5 @@
+![markdown-nvim](assets/icons/markdown-nvim/png/markdown-nvim-128.png)
+
 > **Beta stage — active development.** This repository is past its first shape and in
 > active use, but the surface is not frozen: breaking changes are still possible. Pin a
 > commit or tag if you depend on it.
