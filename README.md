@@ -123,5 +123,6 @@ markdown.nvim is released under the [MIT License](https://opensource.org/license
 
 - [buffer-ctx.nvim](https://github.com/WKDSteve/buffer-ctx.nvim): With markdown.nvim installed, `:Insert mdlink` and `:Copy mdlink` of buffer-ctx.nvim use its link builder (`markdown.commands.markdown_links`). ([picture](assets/graphs/pair/buffer-ctx.nvim--markdown.nvim.png))
 - [cascade.nvim](https://github.com/WKDSteve/cascade.nvim): In markdown buffers, cascade.nvim consults the table mode of markdown.nvim (`markdown.core.table_mode`) before it acts. ([picture](assets/graphs/pair/cascade.nvim--markdown.nvim.png))
+- [filetree.nvim](https://github.com/WKDSteve/filetree.nvim): When filetree.nvim renames, moves or deletes a file, it asks markdown.nvim for the markdown links that point at it and rewrites them, when it is installed. ([picture](assets/graphs/pair/filetree.nvim--markdown.nvim.png))
 - [images.nvim](https://github.com/WKDSteve/images.nvim): images.nvim resolves paths with the resolver of markdown.nvim (`markdown.util.path`) when it is installed, and with its own otherwise. ([picture](assets/graphs/pair/images.nvim--markdown.nvim.png))
 <!-- connections:end -->
