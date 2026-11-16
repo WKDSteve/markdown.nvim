@@ -152,6 +152,10 @@ return function(line, col)
     if t then return { target = t, fragment = f } end
   end
 
+  -- The near-cursor scan is for multi-line HTML blocks; a line with markdown
+  -- links of its own is left to the handler's cursor-aware link resolution,
+  -- so a `src=` on a neighbouring line cannot claim it.
+  if #md_links(line) > 0 then return nil end
   local near = find_attr_near_cursor(12)
   if near and looks_like_file_uri(near) then
     local t, f = parse_href_target(near)

@@ -141,10 +141,20 @@ return function(H)
     r = is_extern(mixed, mixed:find("[notes]", 1, true))
     eq(r and r.target, "notes.md", "cursor on the file link")
 
+    -- An HTML `src=` on a neighbouring line does not hijack a line that has
+    -- markdown links of its own (the near-cursor scan is for HTML blocks).
+    do
+      local nbuf = H.scratch("markdown")
+      vim.api.nvim_buf_set_lines(nbuf, 0, -1, false, { '<img src="pic.png">', line })
+      vim.api.nvim_win_set_cursor(0, { 2, 0 })
+      eq(is_extern(line, 0), nil, "a neighbouring src= does not claim a link line")
+    end
+
     package.loaded["markdown.handler"] = nil
     local h3 = require("markdown.handler")
     local orig_open_target = h3.open_target
     local opened = {}
+    ---@diagnostic disable-next-line: duplicate-set-field
     h3.open_target = function(t) opened[#opened + 1] = t end
     local before = #calls
     local run_ok, run_err = pcall(function()
