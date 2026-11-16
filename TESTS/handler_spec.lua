@@ -128,7 +128,7 @@ return function(H)
   -- warned "External anchor: target file not found").
   do
     local is_extern = require("markdown.anchor.is_html_extern_anchor_line")
-    local line = "Start it (TCShell.exe in your Tosca Commander folder, see notes) "
+    local line = "Start it (TCShell.exe in your Tosca Commander folder, see Tricentis/Tosca Testsuite) "
       .. "and read [Guide](https://example.com/guide) or [Docs](https://example.com/docs)."
     eq(is_extern(line), nil, "a bare parenthesis is no link target")
     local docs_col = line:find("[Docs]", 1, true) + 1 -- 0-based column inside the link
