@@ -28,16 +28,49 @@ local function looks_like_file_uri(uri)
 end
 
 ---@internal
+--- Every markdown link (`[text](target)`, also `![alt](src)`) on `line`, with
+--- its 1-based byte span. A bare parenthesis in prose is no link target.
+---@param line string
+---@return { s: integer, e: integer, target: string }[]
+local function md_links(line)
+  local links = {}
+  local init = 1
+  while true do
+    local s, e = line:find("%b[]", init)
+    if not s then break end
+    local ps, pe = line:find("^%b()", e + 1)
+    if ps then
+      local inner = trim(line:sub(ps + 1, pe - 1))
+      if inner and inner ~= "" then links[#links + 1] = { s = s, e = pe, target = inner } end
+      init = pe + 1
+    else
+      init = s + 1
+    end
+  end
+  return links
+end
+
+---@internal
+--- The markdown link target that counts for `line`: the link under the cursor
+--- column `col` (0-based) when there is one -- `false` when that link is no
+--- file -- else the first link that points at a file.
 ---@param line string?
----@return string?
-local function extract_md_paren_target(line)
+---@param col integer?
+---@return string|false|nil
+local function extract_md_paren_target(line, col)
   if not line then return nil end
-  local inner = line:match("%b()")
-  if not inner then return nil end
-  inner = inner:sub(2, -2)
-  inner = trim(inner)
-  if inner == "" then return nil end
-  return inner
+  local links = md_links(line)
+  if col then
+    for _, lk in ipairs(links) do
+      if col + 1 >= lk.s and col + 1 <= lk.e then
+        return looks_like_file_uri(lk.target) and lk.target or false
+      end
+    end
+  end
+  for _, lk in ipairs(links) do
+    if looks_like_file_uri(lk.target) then return lk.target end
+  end
+  return nil
 end
 
 ---@internal
@@ -92,8 +125,9 @@ local function parse_href_target(s)
 end
 
 ---@param line string? Current line under the cursor, if any.
+---@param col integer? 0-based cursor column on `line`; a link under it decides.
 ---@return { target: string, fragment: string? }?
-return function(line)
+return function(line, col)
   if not line or line == "" then
     local near = find_attr_near_cursor(8)
     if near and looks_like_file_uri(near) then
@@ -103,8 +137,11 @@ return function(line)
     return nil
   end
 
-  local md_target = extract_md_paren_target(line)
-  if md_target and looks_like_file_uri(md_target) then
+  local md_target = extract_md_paren_target(line, col)
+  -- The cursor sits on a markdown link that is no file (a URL, `#anchor`):
+  -- that link decides, the cursor-aware link resolution of the handler opens it.
+  if md_target == false then return nil end
+  if md_target then
     local t, f = parse_href_target(md_target)
     if t then return { target = t, fragment = f } end
   end

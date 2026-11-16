@@ -121,6 +121,50 @@ return function(H)
     eq(vim.api.nvim_buf_get_name(0), target, "current buffer is the linked file")
   end
 
+  -- A line with a plain parenthesis that names a file (`(TCShell.exe ...)`)
+  -- before two https links: `ma` / double-click on a link opens exactly that
+  -- link (regression: the external-anchor branch took the first `%b()` of the
+  -- whole line, resolved `TCShell.exe` as a file next to the buffer and
+  -- warned "External anchor: target file not found").
+  do
+    local is_extern = require("markdown.anchor.is_html_extern_anchor_line")
+    local line = "Start it (TCShell.exe in your Tosca Commander folder, see notes) "
+      .. "and read [Guide](https://example.com/guide) or [Docs](https://example.com/docs)."
+    eq(is_extern(line), nil, "a bare parenthesis is no link target")
+    local docs_col = line:find("[Docs]", 1, true) + 1 -- 0-based column inside the link
+    eq(is_extern(line, docs_col), nil, "cursor on an https link: not an external file")
+
+    local mixed = "See (TCShell.exe) [notes](notes.md) and [web](https://example.com/x)"
+    local r = is_extern(mixed)
+    eq(r and r.target, "notes.md", "without a cursor link the first file link counts")
+    eq(is_extern(mixed, mixed:find("[web]", 1, true)), nil, "cursor on the URL link wins")
+    r = is_extern(mixed, mixed:find("[notes]", 1, true))
+    eq(r and r.target, "notes.md", "cursor on the file link")
+
+    package.loaded["markdown.handler"] = nil
+    local h3 = require("markdown.handler")
+    local orig_open_target = h3.open_target
+    local opened = {}
+    h3.open_target = function(t) opened[#opened + 1] = t end
+    local before = #calls
+    local run_ok, run_err = pcall(function()
+      local lbuf = H.scratch("markdown")
+      vim.api.nvim_buf_set_lines(lbuf, 0, -1, false, { line })
+      vim.api.nvim_win_set_cursor(0, { 1, docs_col })
+      h3.handle_cursor_action({ silent = true, mouse = true })
+      vim.api.nvim_win_set_cursor(0, { 1, line:find("[Guide]", 1, true) + 2 })
+      h3.handle_cursor_action()
+    end)
+    h3.open_target = orig_open_target
+    if not run_ok then error(run_err, 0) end
+    eq(
+      table.concat(opened, " "),
+      "https://example.com/docs https://example.com/guide",
+      "the link under the cursor opens"
+    )
+    eq(#calls, before, "no 'External anchor' warning for https links")
+  end
+
   -- Restore the real notify module so later specs (if any run after this one
   -- in the same process) are unaffected.
   package.loaded["markdown.util.notify"] = nil

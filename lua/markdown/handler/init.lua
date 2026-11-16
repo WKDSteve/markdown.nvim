@@ -242,7 +242,7 @@ function M.handle_cursor_action(opts)
   -- This branch "claims" the line: a resolve/open miss has already notified via
   -- open_file_in_current_window, so we return instead of cascading into the
   -- image branch below (which would emit a second, redundant warning).
-  local ext = is_html_extern_anchor_line(line)
+  local ext = is_html_extern_anchor_line(line, api.nvim_win_get_cursor(0)[2])
   if ext and ext.target then
     local target = ext.target
     local fragment = ext.fragment
