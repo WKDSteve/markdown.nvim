@@ -51,9 +51,36 @@ local function md_links(line)
 end
 
 ---@internal
+--- The path in the innermost bare parenthesis (not the `(target)` half of a
+--- markdown link) around the 1-based byte `pos`: only when it holds one token
+--- that looks like a file, so `(docs/notes.md)` counts and prose such as
+--- `(TCShell.exe in your Tosca folder)` does not.
+---@param line string
+---@param pos integer
+---@return string?
+local function bare_paren_path_at(line, pos)
+  local inner
+  local init = 1
+  while true do
+    local s, e = line:find("%b()", init)
+    if not s or s > pos then break end
+    if pos <= e then
+      if line:sub(s - 1, s - 1) ~= "]" then inner = line:sub(s + 1, e - 1) end
+      init = s + 1 -- look for a narrower parenthesis inside this one
+    else
+      init = e + 1
+    end
+  end
+  inner = trim(inner)
+  if not inner or inner == "" or inner:find("%s") then return nil end
+  return looks_like_file_uri(inner) and inner or nil
+end
+
+---@internal
 --- The markdown link target that counts for `line`: the link under the cursor
 --- column `col` (0-based) when there is one -- `false` when that link is no
---- file -- else the first link that points at a file.
+--- file -- else a bare `(path)` around the cursor, else the first link that
+--- points at a file.
 ---@param line string?
 ---@param col integer?
 ---@return string|false|nil
@@ -66,6 +93,8 @@ local function extract_md_paren_target(line, col)
         return looks_like_file_uri(lk.target) and lk.target or false
       end
     end
+    local bare = bare_paren_path_at(line, col + 1)
+    if bare then return bare end
   end
   for _, lk in ipairs(links) do
     if looks_like_file_uri(lk.target) then return lk.target end

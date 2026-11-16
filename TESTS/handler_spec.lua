@@ -141,6 +141,23 @@ return function(H)
     r = is_extern(mixed, mixed:find("[notes]", 1, true))
     eq(r and r.target, "notes.md", "cursor on the file link")
 
+    -- A bare parenthesis that holds nothing but a path opens when the cursor
+    -- is inside it, and only then; prose in parentheses never does.
+    do
+      local pbuf = H.scratch("markdown")
+      local prose = "see (docs/notes.md#setup) and (TCShell.exe in Tricentis/Tosca) here"
+      vim.api.nvim_buf_set_lines(pbuf, 0, -1, false, { prose })
+      vim.api.nvim_win_set_cursor(0, { 1, 0 })
+      r = is_extern(prose, prose:find("notes", 1, true))
+      eq(r and r.target, "docs/notes.md", "cursor inside a path parenthesis")
+      eq(r and r.fragment, "setup", "its fragment")
+      eq(is_extern(prose, 0), nil, "cursor outside every parenthesis")
+      eq(is_extern(prose), nil, "no cursor: a bare parenthesis does not count")
+      eq(is_extern(prose, prose:find("Tricentis", 1, true)), nil, "prose in parentheses is no path")
+      r = is_extern(mixed, mixed:find("TCShell", 1, true))
+      eq(r and r.target, "TCShell.exe", "cursor inside (TCShell.exe): that file, not notes.md")
+    end
+
     -- An HTML `src=` on a neighbouring line does not hijack a line that has
     -- markdown links of its own (the near-cursor scan is for HTML blocks).
     do

@@ -48,6 +48,11 @@ the browser, local files open via the system app (media/binary) or `:edit`
 pdfport.nvim, when installed (see
 [INTEGRATIONS.md](INTEGRATIONS.md#pdfportnvim)).
 
+On a line with several links the one under the cursor opens (with the
+cursor elsewhere: the only link, or a picker). A parenthesis in prose is no
+link: `(TCShell.exe in your Tosca folder)` never claims the line, and a bare
+`(docs/notes.md)` opens only with the cursor inside it.
+
 - **Module:** `handler/init.lua` (`handle_cursor_action`), delegating to
   `handler/url.lua`, `handler/file.lua`, `handler/image.lua`,
   `anchor/jump.lua`
