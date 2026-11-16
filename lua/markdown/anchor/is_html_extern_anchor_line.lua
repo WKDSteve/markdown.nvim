@@ -73,7 +73,15 @@ local function bare_paren_path_at(line, pos)
   end
   inner = trim(inner)
   if not inner or inner == "" or inner:find("%s") then return nil end
-  return looks_like_file_uri(inner) and inner or nil
+  if not looks_like_file_uri(inner) then return nil end
+  if inner:find("[/\\]") then return inner end
+  -- No separator: `(v1.2)` or `(example.com)` would pass the name test, so the
+  -- file must exist next to the buffer.
+  local name = inner:match("^([^#]*)") or inner
+  local ok, bufname = pcall(api.nvim_buf_get_name, 0)
+  if not ok or bufname == "" then return nil end
+  local dir = vim.fs.dirname(bufname)
+  return (vim.uv or vim.loop).fs_stat(dir .. "/" .. name) and inner or nil
 end
 
 ---@internal

@@ -154,8 +154,21 @@ return function(H)
       eq(is_extern(prose, 0), nil, "cursor outside every parenthesis")
       eq(is_extern(prose), nil, "no cursor: a bare parenthesis does not count")
       eq(is_extern(prose, prose:find("Tricentis", 1, true)), nil, "prose in parentheses is no path")
-      r = is_extern(mixed, mixed:find("TCShell", 1, true))
-      eq(r and r.target, "TCShell.exe", "cursor inside (TCShell.exe): that file, not notes.md")
+      -- Without a path separator the file must exist next to the buffer:
+      -- a version number or a domain in parentheses is no file.
+      local dir = vim.fn.tempname()
+      vim.fn.mkdir(dir, "p")
+      local fh = assert(io.open(dir .. "/TCShell.exe", "w"))
+      fh:close()
+      local vbuf = H.scratch("markdown")
+      vim.api.nvim_buf_set_name(vbuf, dir .. "/page.md")
+      local ver = "released (v1.2) on (example.com), run (TCShell.exe)"
+      vim.api.nvim_buf_set_lines(vbuf, 0, -1, false, { ver })
+      eq(is_extern(ver, ver:find("v1.2", 1, true)), nil, "(v1.2) is no file")
+      eq(is_extern(ver, ver:find("example", 1, true)), nil, "(example.com) is no file")
+      r = is_extern(ver, ver:find("TCShell", 1, true))
+      eq(r and r.target, "TCShell.exe", "(TCShell.exe) next to the buffer is a file")
+      vim.fn.delete(dir, "rf")
     end
 
     -- An HTML `src=` on a neighbouring line does not hijack a line that has
