@@ -11,6 +11,9 @@ local M = {}
 
 local uv = vim.uv or vim.loop
 local globbable = require("lib.nvim.fs.globbable")
+-- `**/*.md` below the cwd: globpath walks node_modules and took seconds on Windows (lib.nvim
+-- collect_recursive.files_with_ext, 10 to 20 times faster, measured 2026-11-17).
+local walker = require("lib.nvim.fs.collect_recursive")
 local expand_path = require("lib.nvim.cross.fs.expand_path")
 
 --- Files processed per event-loop tick once a `cwd` scope spans more than
@@ -64,7 +67,7 @@ local function collect(scope, on_done)
 
   local function links_from_file(path)
     -- ERR-01: readfile raises (E484) on a permission-denied file or one that
-    -- vanished between the globpath and this read. One bad file must not
+    -- vanished between the listing and this read. One bad file must not
     -- abort the whole scan (below CHUNK, that would surface as a raw
     -- scheduler error; above it, it would kill the vim.schedule(step) chain
     -- outright and leave the progress handle unfinished for the session).
@@ -80,7 +83,7 @@ local function collect(scope, on_done)
   end
 
   if scope == "cwd" then
-    local md_files = vim.fn.globpath(globbable(vim.fn.getcwd()), "**/*.md", false, true)
+    local md_files = walker.files_with_ext(globbable(vim.fn.getcwd()), { "md" })
     local out = {}
 
     if #md_files <= CHUNK then
@@ -304,7 +307,7 @@ local function do_sanitize(argv)
   end
 
   if scope == "cwd" then
-    local files = vim.fn.globpath(globbable(vim.fn.getcwd()), "**/*.md", false, true)
+    local files = walker.files_with_ext(globbable(vim.fn.getcwd()), { "md" })
     local total, touched, skipped = 0, 0, 0
 
     local function done()

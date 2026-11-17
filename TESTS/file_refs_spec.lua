@@ -182,6 +182,14 @@ return function(H)
     end
     write("docs/target.md", { "# Target" })
     write("docs/linker.md", { "[t](target.md)" })
+    -- the fallback walks deep folders, but never node_modules or a dot folder (what globpath never
+    -- showed either): only docs/linker.md and deep/a/b/linker.md count
+    vim.fn.mkdir(root3 .. "/deep/a/b", "p")
+    write("deep/a/b/linker.md", { "[t](../../../docs/target.md)" })
+    vim.fn.mkdir(root3 .. "/node_modules/pkg", "p")
+    write("node_modules/pkg/readme.md", { "[t](../../docs/target.md)" })
+    vim.fn.mkdir(root3 .. "/.hidden", "p")
+    write(".hidden/note.md", { "[t](../docs/target.md)" })
 
     ok(vim.fn.executable("rg") == 1, "this regression needs rg on PATH to exercise the rg path")
 
@@ -200,7 +208,7 @@ return function(H)
     ok(refs_ok, "find_references: survives a forced rg error")
     eq(
       #refs,
-      1,
+      2,
       "find_references: rg error falls back to the glob scan instead of reporting 0 refs"
     )
 
@@ -220,7 +228,7 @@ return function(H)
     ok(done, "find_references_async: callback fired despite the forced rg error")
     eq(
       #(async_refs or {}),
-      1,
+      2,
       "find_references_async: rg error falls back to the glob scan instead of reporting 0 refs"
     )
   end)

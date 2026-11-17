@@ -33,6 +33,7 @@
 local link_scan = require("markdown.core.link_scan")
 local path = require("markdown.util.path")
 local globbable = require("lib.nvim.fs.globbable")
+local collect = require("lib.nvim.fs.collect_recursive")
 local ignore = require("markdown.util.ignore")
 local executable = require("lib.nvim.cross.executable")
 local uv = vim.uv or vim.loop
@@ -151,10 +152,13 @@ local function rg_files(result)
   return files, determined
 end
 
---- Pure-Lua fallback candidate list (every `*.md` under root).
+--- Pure-Lua fallback candidate list (every `*.md` under root, as `globpath("**/*.md")` shows them: no dot
+--- entries), without the folders a project search never wants (`.git`, `node_modules`, `.claude`, ...).
+--- `globpath` itself took 1.1 to 7.3 s on a real repository on Windows; this walk is 10 to 20 times
+--- faster (lib.nvim `collect_recursive.files_with_ext`, measured 2026-11-17).
 ---@param root string
 ---@return string[]
-local function glob_files(root) return vim.fn.globpath(globbable(root), "**/*.md", false, true) end
+local function glob_files(root) return collect.files_with_ext(globbable(root), { "md" }) end
 
 --- The target, spelled the way the scanned candidates are spelled.
 ---
