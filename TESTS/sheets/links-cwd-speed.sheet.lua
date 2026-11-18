@@ -34,6 +34,7 @@ local SETUP = [[vim.opt.shortmess:append("I")
 
 return {
   id = "links.cwd-speed",
+  feature = "markdown.links-show",
   title = ":Markdown links show cwd: 300 notes listed fast, node_modules and dot folders left out",
   task = "pickers.nvim/abnahme-schnelle-dateilisten",
   engine = "rpc",

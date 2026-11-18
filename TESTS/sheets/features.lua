@@ -19,45 +19,58 @@ return {
   {
     id = "markdown.heading-nav",
     title = "Move to the previous or next heading or fenced-code delimiter",
+    perf = "skip:no process: buffer text and files only",
     docs = H,
   },
   {
     id = "markdown.heading-shift",
     title = "Raise or lower the level of a heading, a range or the whole buffer",
+    perf = "skip:no process: buffer text and files only",
     docs = H,
   },
   {
     id = "markdown.heading-format",
     title = "Normalize the text of a heading without touching its level",
+    perf = "skip:no process: buffer text and files only",
     docs = H,
   },
   {
     id = "markdown.folding",
     title = "Headings (ATX and Setext) fold through the plugin's foldexpr",
+    perf = "skip:no process: buffer text and files only",
     docs = H,
   },
   {
     id = "markdown.toc",
     title = "Insert or refresh a table of contents with GFM anchors",
+    perf = "skip:no process: buffer text and files only",
     docs = H,
   },
   {
     id = "markdown.headline-spacing",
     title = "A blank --- blank separator between consecutive sections",
+    perf = "skip:no process: buffer text and files only",
     docs = H,
   },
   {
     id = "markdown.setext-underline",
     title = "A line of = below every heading, matching its width",
+    perf = "skip:no process: buffer text and files only",
     docs = H,
   },
   -- Editing
   {
     id = "markdown.format",
     title = ":Markdown format applies its formatting ops to a buffer, a file or a tree",
+    perf = "skip:no process: buffer text and files only",
     docs = E,
   },
-  { id = "markdown.bold-wrap", title = "Toggle **bold** on a visual selection", docs = E },
+  {
+    id = "markdown.bold-wrap",
+    title = "Toggle **bold** on a visual selection",
+    perf = "skip:no process: buffer text and files only",
+    docs = E,
+  },
   {
     id = "markdown.cursor-action",
     title = "One key acts on what is under the cursor: anchors jump, links open",
@@ -66,17 +79,20 @@ return {
   {
     id = "markdown.image-paste",
     title = "Paste a clipboard image or a screenshot as a file and a link",
+    perf = "skip:no process of its own: delegates to images.nvim (:Image paste/screenshot), which starts the clipboard tools",
     docs = E,
   },
   {
     id = "markdown.checkboxes",
     title = "A list checkbox steps through open, done and cancelled",
+    perf = "skip:no process: buffer text and files only",
     docs = E,
   },
   -- Links and references
   {
     id = "markdown.link-wrap",
     title = "Wrap the word under the cursor or a selection in a Markdown link",
+    perf = "skip:no process: buffer text and files only",
     docs = L,
   },
   {
@@ -87,22 +103,31 @@ return {
   {
     id = "markdown.link-diagnostics",
     title = "Dead relative links and duplicate anchors are diagnostics",
+    perf = "skip:no process: buffer text and files only",
     docs = L,
   },
   {
     id = "markdown.link-sanitize",
     title = "Inline-link targets are normalized (slashes, bare paths)",
+    perf = "skip:no process: buffer text and files only",
     docs = L,
   },
   {
     id = "markdown.refs",
     title = "Anchor links and the TOC stay consistent when a heading is renamed",
+    perf = "skip:no process: buffer text and files only",
     docs = L,
   },
-  { id = "markdown.anchor-jump", title = "Jump to a #heading anchor by its GFM slug", docs = L },
+  {
+    id = "markdown.anchor-jump",
+    title = "Jump to a #heading anchor by its GFM slug",
+    perf = "skip:no process: buffer text and files only",
+    docs = L,
+  },
   {
     id = "markdown.links-create",
     title = "Create the files and folders the link targets of a range name",
+    perf = "skip:no process: buffer text and files only",
     docs = L,
   },
   {
@@ -114,11 +139,13 @@ return {
   {
     id = "markdown.table-format",
     title = "Pipe tables are parsed and re-rendered aligned (GFM formatter)",
+    perf = "skip:no process: buffer text and files only",
     docs = T,
   },
   {
     id = "markdown.table-mode",
     title = "Table mode formats the table live while typing",
+    perf = "skip:no process: buffer text and files only",
     docs = T,
   },
   {
@@ -126,7 +153,12 @@ return {
     title = "A floating table preview, aligned or box-drawn, and its export",
     docs = T,
   },
-  { id = "markdown.table-wrap", title = "Tables wrap to a width cap (:MDTable*)", docs = T },
+  {
+    id = "markdown.table-wrap",
+    title = "Tables wrap to a width cap (:MDTable*)",
+    perf = "skip:no process: buffer text and files only",
+    docs = T,
+  },
   {
     id = "markdown.table-list",
     title = ":Markdown table list shows the tables of a scope in a picker with a preview; choosing one jumps there",
@@ -136,6 +168,7 @@ return {
   {
     id = "markdown.table-formats",
     title = "Tables beyond GFM are read through one registry",
+    perf = "skip:no process: buffer text and files only",
     docs = T,
   },
   {
@@ -152,17 +185,20 @@ return {
   {
     id = "markdown.highlighting",
     title = "Code, blockquotes and inline links get their own highlights",
+    perf = "skip:no process: buffer text and files only",
     docs = U,
   },
   -- Integrations
   {
     id = "markdown.preview",
     title = "A browser preview of the buffer through mdview.nvim",
+    perf = "skip:no process of its own: delegates to mdview.nvim, which starts its server and the browser",
     docs = I,
   },
   {
     id = "markdown.pdf",
     title = "Follow a .pdf link or export the buffer through pdfport.nvim",
+    perf = "skip:no process of its own: pdfport.nvim exports (pandoc) and shows; a .pdf opened in the system app is the opener of handler.cursor-action-system-opener",
     docs = I,
   },
 }
