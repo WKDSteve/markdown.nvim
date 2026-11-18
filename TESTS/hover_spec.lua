@@ -139,8 +139,10 @@ return function(H)
 
   do
     local content = text.file({ type = "file", raw = "notes.txt", path = plain }, { max_lines = 2 })
-    eq(#content.lines, 3, "preview.file: cap of 2 yields 2 lines plus an ellipsis")
-    eq(content.lines[3], "…", "preview.file: truncation is marked")
+    -- hover.nvim d1ed18c: the float is at most `max_lines` rows high, so the marker takes the last row
+    -- of a full page instead of sitting below it (1 line plus the marker)
+    eq(#content.lines, 2, "preview.file: cap of 2 yields 1 line plus an ellipsis")
+    eq(content.lines[2], "…", "preview.file: truncation is marked, on the last row")
   end
 
   do
