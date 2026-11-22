@@ -8,7 +8,7 @@
 ---@diagnostic disable: need-check-nil
 
 return function(H)
-  local eq, ok = H.eq, H.ok
+  local ok = H.ok
   local api = vim.api
 
   ---@return integer
@@ -50,11 +50,11 @@ return function(H)
   ok(active_timers() > base, "an edit arms a debounce timer (the count sees a running timer)")
 
   local idle = vim.wait(2000, function() return active_timers() <= base end, 20)
-  ok(idle, "the debounce timers end after they fired")
-  eq(active_timers(), base, "no timer of the renderer is left running")
+  ok(idle, "the debounce timers end after they fired: no timer of the renderer is left running")
 
   render.disable(buf)
   table_render.disable(buf)
   vim.wait(300, function() return false end, 20)
-  eq(active_timers(), base, "disabling leaves no timer running either")
+  -- `<=`: a one-shot timer of the setup that still ran when `base` was taken may have ended since
+  ok(active_timers() <= base, "disabling leaves no timer running either")
 end
