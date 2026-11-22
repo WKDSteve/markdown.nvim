@@ -11,6 +11,12 @@ return {
   engine = "rpc",
   steps = {
     { lua = 'vim.opt.shortmess:append("I")' },
+    {
+      lua = [[local ok, cma = pcall(require, "color_my_ascii")
+      if ok and cma.ensure_setup then cma.ensure_setup() end
+      require("testing.child.rpc_boot").rebaseline()]],
+      note = "color_my_ascii keeps a 30 s cleanup timer for ever: set it up, take it into the settle baseline",
+    },
     { lua = 'require("markdown.config").setup({ table = { truncate = { max = 12 } } })' },
     {
       lua = [[vim.api.nvim_buf_set_lines(0, 0, -1, false, {
