@@ -1,4 +1,5 @@
 ---@module 'markdown.tableview.parser'
+--- Parses GitHub-flavoured markdown tables from lines, a buffer or a file.
 local M = {}
 
 local function trim(s)

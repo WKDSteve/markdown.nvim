@@ -1,4 +1,5 @@
 ---@module 'markdown.commands'
+--- The `:Markdown` command: routes a subcommand to its module and completes the names.
 local M = {}
 
 local notify = require("markdown.util.notify").create("[markdown.commands]")

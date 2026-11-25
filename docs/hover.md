@@ -389,8 +389,8 @@ what the `markdown.*` rows below still are. markdown.nvim hands it over through
 | `hover.preview.binary` · `.office` | "these bytes are not text" and what to call them · office documents, badge or converted page |
 | `hover.bare_path` · `.bare_url` | A path, and a URL, carrying no link syntax at all, in any filetype |
 
-Older notes name `markdown.hover.classify`, `markdown.hover.float` and
-`markdown.hover.preview.*`, and notes written between the two moves name them
+Older notes name markdown.hover.classify, markdown.hover.float and
+markdown.hover.preview.*, and notes written between the two moves name them
 `lib.nvim.hover.*`. Both are pre-move spellings of the `hover.*` rows above.
 
 Asynchronous previews (PDF rasterization, URL fetch) are guarded by a

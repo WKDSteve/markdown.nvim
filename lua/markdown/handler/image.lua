@@ -1,4 +1,5 @@
 ---@module 'markdown.handler.image'
+--- Opens an image target in the system viewer or an in-Neovim preview.
 local notify = require("markdown.util.notify").create("[markdown.handler.image]")
 local platform = require("markdown.util.platform")
 

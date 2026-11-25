@@ -1,4 +1,5 @@
 ---@module 'markdown.handler'
+--- Opens the anchor, image, URL or file under the cursor, or a raw target string.
 local notify = require("markdown.util.notify").create("[markdown.handler]")
 
 local M = {}

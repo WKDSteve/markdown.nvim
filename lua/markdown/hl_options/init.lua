@@ -1,4 +1,5 @@
 ---@module 'markdown.hl_options'
+--- Applies the blockquote and link highlight options and re-applies them on ColorScheme.
 local M = {}
 
 local autocmd = require("lib.nvim.bindings.autocmd")

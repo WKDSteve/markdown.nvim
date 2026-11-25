@@ -1,4 +1,5 @@
 ---@module 'markdown.fenced_fix'
+--- Repairs the highlighting of fenced code blocks and the inline code around them, per colorscheme.
 local notify = require("markdown.util.notify").create("[markdown.fenced_fix]")
 local autocmd = require("lib.nvim.bindings.autocmd")
 

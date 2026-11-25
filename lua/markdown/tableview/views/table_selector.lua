@@ -1,4 +1,5 @@
 ---@module 'markdown.tableview.views.table_selector'
+--- Picks one of the tables of the buffer to show.
 local ui = require("markdown.tableview.renderer")
 local picker = require("markdown.util.picker")
 

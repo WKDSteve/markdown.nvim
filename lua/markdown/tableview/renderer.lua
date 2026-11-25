@@ -1,4 +1,5 @@
 ---@module 'markdown.tableview.renderer'
+--- Renders parsed tables in a float and writes edits, column widths and row moves back.
 local M = {}
 
 -- vim.hl replaced vim.highlight (deprecated); older Neovim only has the latter.

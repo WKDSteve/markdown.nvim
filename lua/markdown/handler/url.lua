@@ -1,4 +1,5 @@
 ---@module 'markdown.handler.url'
+--- Opens a URL target in the system browser.
 local notify = require("markdown.util.notify").create("[markdown.handler.url]")
 local platform = require("markdown.util.platform")
 

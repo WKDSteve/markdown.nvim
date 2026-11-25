@@ -1,4 +1,5 @@
 ---@module 'markdown.handler.file'
+--- Opens a local file target, resolved relative to the buffer.
 local notify = require("markdown.util.notify").create("[markdown.handler.file]")
 local platform = require("markdown.util.platform")
 

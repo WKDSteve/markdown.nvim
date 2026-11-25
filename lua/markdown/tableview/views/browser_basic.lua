@@ -1,4 +1,5 @@
 ---@module 'markdown.tableview.views.browser_basic'
+--- Exports a table as a plain HTML page and opens it in the browser.
 local notify = require("markdown.util.notify").create("[markdown.tableview.views.browser_basic]")
 
 local api = vim.api

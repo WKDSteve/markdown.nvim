@@ -1,4 +1,5 @@
 ---@module 'markdown.hl_options.hl_groups.blockquote'
+--- Highlights the marker and the text of blockquote lines.
 local M = {}
 
 local GROUP_MARKER = "MarkdownBlockquoteMarker"
