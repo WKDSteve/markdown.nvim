@@ -237,6 +237,58 @@ return function(H)
     require("markdown.config").setup({ menu = { enable = false } })
     eq(menu.enabled(), false, "menu.enabled(): menu.enable=false")
     require("markdown.config").setup({})
+
+    -- Sister-plugin rows: Preview in mdview / Paste image only when that plugin is there.
+    local function labels()
+      local out = {}
+      for _, it in ipairs(menu.items()) do
+        out[#out + 1] = it.name
+      end
+      return out
+    end
+    local function row(label)
+      for _, it in ipairs(menu.items()) do
+        if it.name == label then return it end
+      end
+    end
+    local saved_images = package.loaded["images"]
+    package.loaded["images"] = nil
+    package.preload["images"] = nil
+    pcall(api.nvim_del_user_command, "MDView")
+    ok(not vim.tbl_contains(labels(), "Preview in mdview"), "menu: no mdview row without :MDView")
+    ok(not vim.tbl_contains(labels(), "Paste image"), "menu: no image row without images.nvim")
+
+    local mdview_args
+    api.nvim_create_user_command("MDView", function(o) mdview_args = o.args end, { nargs = "*" })
+    ok(
+      not vim.tbl_contains(labels(), "Preview in mdview"),
+      "menu: no mdview row for a buffer without a file"
+    )
+    local md_file = vim.fn.tempname() .. ".md"
+    api.nvim_buf_set_name(buf, md_file)
+    local md_row = row("Preview in mdview")
+    ok(md_row ~= nil, "menu: mdview row with :MDView and a file buffer")
+    if md_row then md_row.cmd() end
+    ok(
+      type(mdview_args) == "string" and mdview_args:find("start", 1, true) == 1,
+      "menu: mdview row runs :MDView start for the buffer"
+    )
+    require("markdown.config").setup({ menu = { mdview = false } })
+    ok(not vim.tbl_contains(labels(), "Preview in mdview"), "menu opt-out: menu.mdview=false")
+    require("markdown.config").setup({})
+    pcall(require("markdown.commands.preview").set_active, false)
+    api.nvim_del_user_command("MDView")
+
+    local pasted = 0
+    package.loaded["images"] = { paste = function() pasted = pasted + 1 end }
+    local img_row = row("Paste image")
+    ok(img_row ~= nil, "menu: image row with images.nvim")
+    if img_row then img_row.cmd() end
+    eq(pasted, 1, "menu: image row calls images.paste")
+    require("markdown.config").setup({ menu = { image = false } })
+    ok(not vim.tbl_contains(labels(), "Paste image"), "menu opt-out: menu.image=false")
+    require("markdown.config").setup({})
+    package.loaded["images"] = saved_images
   end
 
   -- ===========================================================================

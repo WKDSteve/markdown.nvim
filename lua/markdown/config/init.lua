@@ -143,7 +143,7 @@ local NESTED_OPTS = {
     "math",
   },
   underline_headings = { "char" },
-  menu = { "enable", "fold", "toc", "refs", "checkbox" },
+  menu = { "enable", "fold", "toc", "refs", "checkbox", "mdview", "image" },
   checkbox = { "states" },
   integrations = { "ui_menu" },
   nav = { "fences" },

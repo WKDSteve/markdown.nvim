@@ -47,6 +47,8 @@ local DEFAULTS = {
     fold = true, -- fold/unfold entries (only shown on a heading)
     toc = true, -- Insert/Refresh TOC
     refs = true, -- Sync References
+    mdview = true, -- Preview in mdview (only with mdview.nvim and a file buffer)
+    image = true, -- Paste image (only with images.nvim)
     checkbox = true, -- Cycle Checkbox and the direct states (only shown on a checkbox line)
   },
 

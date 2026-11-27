@@ -47,6 +47,20 @@ local function checkbox_items()
   return out
 end
 
+--- Whether the buffer can go to mdview.nvim: its `:MDView` command exists (the
+--- same test `:Markdown mdview` makes) and the buffer has a file to show.
+---@return boolean
+local function mdview_available()
+  return vim.fn.exists(":MDView") == 2 and vim.api.nvim_buf_get_name(0) ~= ""
+end
+
+--- Whether images.nvim is installed (`:Markdown image paste` delegates to it).
+---@return boolean
+local function images_available()
+  local ok, mod = pcall(require, "images")
+  return ok and type(mod) == "table" and type(mod.paste) == "function"
+end
+
 --- Whether a host that asks first (ui.nvim's `ui.menu`) may show the
 --- Markdown fly-out: `integrations.ui_menu` is not false and the `menu` group
 --- is not switched off. `items()`/`submenu()` themselves stay governed by
@@ -95,6 +109,20 @@ function M.items(opts)
     doc[#doc + 1] = {
       name = "Sync References",
       cmd = function() require("markdown.core.refs").reconcile() end,
+    }
+  end
+  -- Hand-overs to sister plugins: only offered when that plugin is there, so the
+  -- menu never lists a row that can only warn.
+  if mcfg.mdview ~= false and mdview_available() then
+    doc[#doc + 1] = {
+      name = "Preview in mdview",
+      cmd = function() require("markdown.commands.mdview").run({}) end,
+    }
+  end
+  if mcfg.image ~= false and images_available() then
+    doc[#doc + 1] = {
+      name = "Paste image",
+      cmd = function() require("markdown.commands.image").run({ "paste" }) end,
     }
   end
 

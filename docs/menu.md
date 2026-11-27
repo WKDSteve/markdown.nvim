@@ -12,8 +12,15 @@ menu = {
   toc    = true, -- Insert/Refresh TOC
   refs   = true, -- Sync References
   checkbox = true, -- Cycle Checkbox, Checkbox: Open / Done / Cancelled (on a checkbox line)
+  mdview = true, -- Preview in mdview (with mdview.nvim, in a buffer that has a file)
+  image  = true, -- Paste image (with images.nvim)
 }
 ```
+
+The last two hand the buffer to a sister plugin and appear only when it is
+installed: [mdview.nvim](https://github.com/WKDSteve/mdview.nvim) (the same
+`:Markdown mdview` runs) and [images.nvim](https://github.com/WKDSteve/images.nvim)
+(the same `:Markdown image paste` runs).
 
 `integrations.ui_menu = false` keeps ui.nvim's right-click menu (`ui.menu`)
 from showing the fly-out, while `items()`/`submenu()` still work for any other

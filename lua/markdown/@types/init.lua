@@ -153,6 +153,8 @@
 ---@field fold boolean # Include fold/unfold entries (shown on a heading). Default true.
 ---@field toc boolean # Include the Insert/Refresh TOC entry. Default true.
 ---@field refs boolean # Include the Sync References entry. Default true.
+---@field mdview boolean # Include Preview in mdview (shown only with mdview.nvim and a file buffer). Default true.
+---@field image boolean # Include Paste image (shown only with images.nvim). Default true.
 
 ---@class Mkdn.IntegrationsConfig
 ---@field ui_menu boolean # Let ui.nvim's right-click menu (`ui.menu`) compose the Markdown fly-out. Default true.
