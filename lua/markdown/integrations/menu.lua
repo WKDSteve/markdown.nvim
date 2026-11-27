@@ -2,7 +2,7 @@
 ---@brief Context-aware menu entries for nvzone/menu (soft, opt-in integration).
 ---@description
 --- markdown.nvim does not depend on a menu plugin. Instead it *provides* a list
---- of entries in the shape nvzone/menu expects (`{ name, cmd, rtxt }`, plus
+--- of entries in the shape nvzone/menu expects (`{ name, cmd, rtxt, icon }`, plus
 --- `{ name = "separator" }`), and a host — typically the user's menu dispatcher —
 --- composes them into its own menu for markdown buffers, e.g.:
 --- >
@@ -13,7 +13,25 @@
 --- on an ATX heading, the checkbox actions only on a checkbox line. Everything is
 --- opt-out via `config.menu` (see DEFAULTS).
 
+local nerd = require("lib.nvim.ui.nerd_font")
+
 local M = {}
+
+--- One glyph per entry, drawn in the renderer's icon column (`icon`), never in
+--- the label: a label that starts with spaces or a glyph indents its row past
+--- every other one. ASCII fallback without a declared Nerd Font.
+---@type table<string, string>
+local ICON = {
+  fold = nerd.glyph("F054E", "-"), -- unfold-less-horizontal
+  unfold = nerd.glyph("F054F", "+"), -- unfold-more-horizontal
+  cycle = nerd.glyph("F0C52", "x"), -- checkbox-marked-outline
+  state = nerd.glyph("F0131", "o"), -- checkbox-blank-outline
+  toc = nerd.glyph("F027B", "1"), -- format-list-numbered
+  refs = nerd.glyph("F0337", "L"), -- link
+  mdview = nerd.glyph("F0208", "v"), -- eye
+  image = nerd.glyph("F02E9", "I"), -- image-multiple
+  markdown = nerd.glyph("F0354", "M"), -- language-markdown
+}
 
 --- Whether the cursor is currently on an ATX heading line (`#`, `##`, …).
 ---@return boolean
@@ -36,12 +54,14 @@ local function checkbox_items()
       name = "Cycle Checkbox",
       cmd = function() checkbox.cycle(buf, row) end,
       rtxt = "<C-CR>",
+      icon = ICON.cycle,
     },
   }
   for _, state in ipairs(checkbox.states()) do
     out[#out + 1] = {
       name = "Checkbox: " .. (STATE_LABELS[state] or ("[" .. state .. "]")),
       cmd = function() checkbox.set(state, buf, row) end,
+      icon = ICON.state,
     }
   end
   return out
@@ -88,9 +108,24 @@ function M.items(opts)
 
   -- Fold controls — only meaningful on a heading (or when forced).
   if mcfg.fold ~= false and (opts.force_fold or on_heading()) then
-    items[#items + 1] = { name = "Fold / Unfold Heading", cmd = actions.fold_toggle, rtxt = "za" }
-    items[#items + 1] = { name = "Fold below H2 (toggle)", cmd = actions.fold_h2plus, rtxt = "zk" }
-    items[#items + 1] = { name = "Unfold All", cmd = actions.unfold_all, rtxt = "zu" }
+    items[#items + 1] = {
+      name = "Fold / Unfold Heading",
+      cmd = actions.fold_toggle,
+      rtxt = "za",
+      icon = ICON.fold,
+    }
+    items[#items + 1] = {
+      name = "Fold below H2 (toggle)",
+      cmd = actions.fold_h2plus,
+      rtxt = "zk",
+      icon = ICON.fold,
+    }
+    items[#items + 1] = {
+      name = "Unfold All",
+      cmd = actions.unfold_all,
+      rtxt = "zu",
+      icon = ICON.unfold,
+    }
   end
 
   -- Checkbox actions: only on a checkbox line.
@@ -103,12 +138,18 @@ function M.items(opts)
   -- Document-level actions (always available in a markdown buffer).
   local doc = {}
   if mcfg.toc ~= false then
-    doc[#doc + 1] = { name = "Insert / Refresh TOC", cmd = actions.toc, rtxt = "<leader>toc" }
+    doc[#doc + 1] = {
+      name = "Insert / Refresh TOC",
+      cmd = actions.toc,
+      rtxt = "<leader>toc",
+      icon = ICON.toc,
+    }
   end
   if mcfg.refs ~= false then
     doc[#doc + 1] = {
       name = "Sync References",
       cmd = function() require("markdown.core.refs").reconcile() end,
+      icon = ICON.refs,
     }
   end
   -- Hand-overs to sister plugins: only offered when that plugin is there, so the
@@ -117,12 +158,14 @@ function M.items(opts)
     doc[#doc + 1] = {
       name = "Preview in mdview",
       cmd = function() require("markdown.commands.mdview").run({}) end,
+      icon = ICON.mdview,
     }
   end
   if mcfg.image ~= false and images_available() then
     doc[#doc + 1] = {
       name = "Paste image",
       cmd = function() require("markdown.commands.image").run({ "paste" }) end,
+      icon = ICON.image,
     }
   end
 
@@ -135,12 +178,12 @@ end
 --- Convenience: the markdown entries wrapped as a single nested submenu entry,
 --- for hosts that prefer a "Markdown ▸" fly-out instead of inline entries.
 --- Returns nil when there is nothing to show.
----@param label? string  submenu label (default "  Markdown")
+---@param label? string  submenu label (default "Markdown")
 ---@return table|nil
 function M.submenu(label)
   local items = M.items()
   if #items == 0 then return nil end
-  return { name = label or "  Markdown", hl = "Exblue", items = items }
+  return { name = label or "Markdown", hl = "Exblue", icon = ICON.markdown, items = items }
 end
 
 return M

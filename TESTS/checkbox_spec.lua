@@ -203,6 +203,14 @@ return function(H)
       items["Checkbox: Open"] and items["Checkbox: Done"] and items["Checkbox: Cancelled"],
       "the direct states"
     )
+    for name, it in pairs(items) do
+      if name ~= "separator" then
+        ok(
+          type(it.icon) == "string" and it.icon ~= "",
+          ("menu entry %q carries an icon"):format(name)
+        )
+      end
+    end
 
     -- A menu runs its entry from elsewhere: the entry keeps the row it was built for.
     api.nvim_win_set_cursor(0, { 1, 0 })

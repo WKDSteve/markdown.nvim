@@ -229,6 +229,23 @@ return function(H)
     local sub = menu.submenu()
     ok(sub and sub.name and #sub.items > 0, "menu.submenu() returns a non-empty fly-out entry")
 
+    -- Icons go in the renderer's icon column (`icon`), never as padding in the
+    -- label: "  Markdown" indented the fly-out past every other row.
+    eq(sub.name, "Markdown", "menu.submenu(): the default label carries no padding")
+    api.nvim_win_set_cursor(0, { 4, 0 }) -- on "## Section": fold + doc entries
+    for _, it in ipairs(vim.list_extend({ sub }, menu.items())) do
+      if it.name ~= "separator" then
+        ok(
+          not it.name:match("^%s"),
+          ("menu label %q does not start with whitespace"):format(it.name)
+        )
+        ok(
+          type(it.icon) == "string" and it.icon ~= "",
+          ("menu entry %q carries an icon"):format(it.name)
+        )
+      end
+    end
+
     -- ui.menu asks `enabled()` first: on by default, off with either switch.
     eq(menu.enabled(), true, "menu.enabled(): true by default")
     require("markdown.config").setup({ integrations = { ui_menu = false } })

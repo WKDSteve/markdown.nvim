@@ -42,7 +42,7 @@ local md = require("markdown.integrations.menu")
 local items = md.items()               -- { { name, cmd, rtxt }, … }
 
 -- or a single fly-out entry:
-local sub = md.submenu()               -- { name = "  Markdown", items = {…} } | nil
+local sub = md.submenu()               -- { name = "Markdown", icon = …, items = {…} } | nil
 
 -- e.g. in a RightMouse handler for markdown buffers:
 --   local composed = vim.list_extend(md.items(), require("menus.custom"))
