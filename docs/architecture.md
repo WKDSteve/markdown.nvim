@@ -77,7 +77,7 @@ lua/markdown/
       browser_session.lua  shared "reuse one tab" plumbing for the two exports above
       table_selector.lua   pick-a-table floating UI
   integrations/
-    menu.lua               context-aware entries for nvzone/menu (opt-in, host composes them)
+    menu.lua               context-aware context-menu entries (opt-in, host composes them)
   commands/
     init.lua               :Markdown dispatcher + nested completion
     links.lua              :Markdown links show|create

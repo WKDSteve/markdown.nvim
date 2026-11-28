@@ -86,7 +86,7 @@ question each page answers.
 - [Fenced-block scope](docs/fenced-scope.md) — why a Markdown document inside another one needs its own scope.
 - [Tables](docs/FEATURES/TABLES.md) — besides GFM: org, box-drawing, CSV and TSV tables (`table.formats`, `:Markdown table convert`), a picker over every table of a scope (`:Markdown table list`), and the native in-buffer renderer (`:Markdown render`).
 - [Width-limited table wrapping](docs/table-wrap.md) — `:Markdown table format max=40`, the `:MDTable*` family, display-only truncation with a full-text popup (`:Markdown table truncate`), and a virtual grid that fits the window and re-lays out on resize (`:Markdown table render`).
-- [Menu integration](docs/menu.md) — the context-aware entries shipped for nvzone/menu.
+- [Menu integration](docs/menu.md) — the context-aware context-menu entries it ships.
 - [Architecture](docs/architecture.md) — source tree layout and module responsibilities.
 - [Workflow](docs/WORKFLOW.md) — how the features combine while actually writing a document, rather than what each one does.
 - [Health check](docs/health.md) — what `:checkhealth markdown` reports.

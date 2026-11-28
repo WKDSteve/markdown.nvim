@@ -202,7 +202,7 @@ function M.heading_fold_row(bufnr, row)
 end
 
 -- Re-assert the window's fold state before a normal-mode fold command. When
--- these run from a menu callback (nvzone/menu) rather than a keymap, 'foldenable'
+-- these run from a context-menu callback rather than a keymap, 'foldenable'
 -- may be off / the method reset, which makes `za`/`zR` silent no-ops. Mirrors
 -- core.fold_levels.fold_levels(), which works from the menu for this reason.
 ---@internal

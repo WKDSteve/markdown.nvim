@@ -69,10 +69,10 @@ cursor-action handler, and `:Markdown export pdf`.
   or without an available producer, both report a warning instead of
   erroring.
 
-## nvzone/menu
+## Context menu
 
 markdown.nvim doesn't depend on a menu plugin; it *provides* entries in the
-shape nvzone/menu expects, for a host menu dispatcher to compose.
+context-menu entry shape, for a host menu dispatcher to compose.
 
 - **Module:** `integrations/menu.lua`
 - **Config:** `menu.enable` (default `true`), `menu.fold`/`menu.toc`/

@@ -1,7 +1,7 @@
-# Menu (nvzone/menu)
+# Menu
 
-markdown.nvim ships context-aware entries for [nvzone/menu](https://github.com/nvzone/menu)
-but does **not** depend on it. The plugin *owns* its entries; a host composes
+markdown.nvim ships context-aware context-menu entries but does **not**
+depend on a menu plugin. The plugin *owns* its entries; a host composes
 them. Entries are context-aware — the fold actions only appear on a heading, the
 checkbox actions only on a checkbox line — and opt-out via `config.menu`:
 
@@ -45,6 +45,6 @@ local items = md.items()               -- { { name, cmd, rtxt }, … }
 local sub = md.submenu()               -- { name = "Markdown", icon = …, items = {…} } | nil
 
 -- e.g. in a RightMouse handler for markdown buffers:
---   local composed = vim.list_extend(md.items(), require("menus.custom"))
---   require("menu").open(composed, { mouse = true })
+--   local composed = vim.list_extend(md.items(), my_items)
+--   require("ui.contextmenu").open(composed)
 ```

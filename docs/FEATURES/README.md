@@ -38,7 +38,7 @@ relevant config. For the full default-key list see
 - [Highlighting and UI](HIGHLIGHTING-AND-UI.md) — fenced/inline code,
   blockquotes, link underline, fenced-block scope
 - [Integrations](INTEGRATIONS.md) — native rendering, mdview.nvim,
-  images.nvim/snacks.nvim/image.nvim, pdfport.nvim, nvzone/menu, picker
+  images.nvim/snacks.nvim/image.nvim, pdfport.nvim, the context menu, picker
   backends, which-key, lib.nvim
 
 For the module-by-module source layout instead of the feature/theme view,

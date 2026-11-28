@@ -20,7 +20,7 @@ is the short version of all of it.
 | [commands.md](commands.md) | Everything funnelled through the single `:Markdown` command, subcommand by subcommand |
 | [keymaps.md](keymaps.md) | The keys, grouped by what they are for — navigation first |
 | [BINDINGS.md](BINDINGS.md) | Every keymap, user command and autocommand this plugin defines, in one inventory |
-| [menu.md](menu.md) | The context-aware entries shipped for `nvzone/menu` |
+| [menu.md](menu.md) | The context-aware context-menu entries it ships |
 | [WORKFLOW.md](WORKFLOW.md) | The different question: not what each feature does, but how they combine while actually writing a document |
 
 ## The parts with a decision behind them

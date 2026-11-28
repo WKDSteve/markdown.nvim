@@ -149,7 +149,7 @@
 ---@field style "markdown"|"box" # Default float style for `view toggle` / <leader>tvt.
 
 ---@class Mkdn.MenuConfig
----@field enable boolean # Provide nvzone/menu entries at all. Default true.
+---@field enable boolean # Provide context-menu entries at all. Default true.
 ---@field fold boolean # Include fold/unfold entries (shown on a heading). Default true.
 ---@field toc boolean # Include the Insert/Refresh TOC entry. Default true.
 ---@field refs boolean # Include the Sync References entry. Default true.
@@ -233,7 +233,7 @@
 ---@field fenced_fix? Mkdn.FencedFix
 ---@field fenced_scope? Mkdn.FencedScope # Treat markdown-family fenced blocks as their own document scope.
 ---@field tableview? Mkdn.TableViewConfig # Default TableView float style ("markdown" | "box").
----@field menu? Mkdn.MenuConfig # nvzone/menu integration entries (opt-out).
+---@field menu? Mkdn.MenuConfig # context-menu entries (opt-out).
 ---@field integrations? Mkdn.IntegrationsConfig # Which hosts may drive this plugin (`ui_menu`).
 ---@field link_hl? Mkdn.LinkHL # Inline-link highlight tweaks (underline on long wrapped URLs).
 ---@field refs? Mkdn.RefsConfig # Keep `#anchor` links + TOC in sync when headings are renamed.

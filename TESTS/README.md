@@ -160,7 +160,7 @@ them manually:
 - **In-terminal image rendering** (snacks.image / kitty graphics) needs a
   real graphics-capable terminal (WezTerm). Open an image file or a markdown
   doc with an image link and check `:checkhealth snacks`.
-- **The nvzone/menu popup actually appearing on RightMouse** is UI-only;
+- **The context-menu popup actually appearing on RightMouse** is UI-only;
   `session_features_spec.lua` verifies the *entries* menu.items() builds
   (context-aware, opt-out), but not the popup rendering itself. Right-click a
   heading in a real Neovim session and try each entry.

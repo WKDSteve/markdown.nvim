@@ -61,7 +61,7 @@ require("markdown").setup({
     char = "=",
   },
 
-  -- nvzone/menu integration (opt-in on the host side; entries provided by
+  -- context-menu integration (opt-in on the host side; entries provided by
   -- markdown.integrations.menu). Per-entry opt-out; enable = false provides
   -- no entries at all.
   menu = {

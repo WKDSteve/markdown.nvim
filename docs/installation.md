@@ -18,7 +18,6 @@ plugin, not a CLI, and every one of them is optional:
 | [images.nvim](https://github.com/WKDSteve/images.nvim), [snacks.nvim](https://github.com/folke/snacks.nvim), [image.nvim](https://github.com/3rd/image.nvim) | Image previews in a float, and `:Markdown image paste\|screenshot` |
 | [mdview.nvim](https://github.com/WKDSteve/mdview.nvim) | The browser preview back end (in-buffer rendering is built in) |
 | telescope.nvim, fzf-lua, snacks.picker | Picker backends for link selection |
-| [nvzone/menu](https://github.com/nvzone/menu) | A host for the context-menu entries — see [FEATURES/INTEGRATIONS.md](FEATURES/INTEGRATIONS.md) |
 | [ui.nvim](https://github.com/WKDSteve/ui.nvim) | `ui.kit.select` is the default picker backend and `ui.kit.confirm` backs the `DD` delete-linked-file confirm dialog — both fall back to `vim.ui.select`/a plain `dd` when absent |
 
 `rg` is declared in [install.json](install.json) and read by lib.nvim's

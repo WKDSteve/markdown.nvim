@@ -12,7 +12,7 @@
 --
 -- NOT covered here (cannot run headless; see docs/TESTS/README.md):
 --   * in-terminal image rendering (needs a real kitty-graphics terminal)
---   * the nvzone/menu popup actually rendering on RightMouse (UI-only)
+--   * the context-menu popup actually rendering on RightMouse (UI-only)
 -- `tableview_spec.lua` already covers TableView's q/<Esc> close behaviour.
 ---@diagnostic disable: missing-fields, duplicate-set-field
 
@@ -396,7 +396,7 @@ return function(H)
   -- 8) Fold toggle/unfold work even when invoked from a "menu-like" context
   --    (foldenable disturbed beforehand — this was the actual bug: only
   --    fold_h2_plus reasserted foldmethod/foldenable, so the plain toggle and
-  --    unfold-all silently no-op'd from an nvzone/menu callback).
+  --    unfold-all silently no-op'd from a context-menu callback).
   -- ===========================================================================
   do
     local fold = require("markdown.core.fold")

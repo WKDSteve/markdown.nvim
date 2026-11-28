@@ -325,7 +325,7 @@ GitHub-only, not duplicated into this helpfile.
   <leader>tvx) always override this default. See |:Markdown-table|.
 
 `menu`                                             *markdown.nvim-config-menu*
-  Context-aware entries for nvzone/menu (soft, opt-in). markdown.nvim does not
+  Context-aware context-menu entries (soft, opt-in). markdown.nvim does not
   depend on a menu plugin; it provides entries and a host composes them. >
     menu = { enable = true, fold = true, toc = true, refs = true, checkbox = true,
              mdview = true, image = true }
@@ -336,7 +336,7 @@ GitHub-only, not duplicated into this helpfile.
   that has a file, "Paste image" only with images.nvim. Get the
   entries from `require("markdown.integrations.menu").items()` (inline
   list) or `.submenu()` (a single fly-out), and compose into your menu, e.g.
-  `require("menu").open(vim.list_extend(md.items(), require("menus.custom")))`.
+  `require("ui.contextmenu").open(vim.list_extend(md.items(), my_items))`.
 
 `integrations`                              *markdown.nvim-config-integrations*
   Which hosts may drive this plugin. >

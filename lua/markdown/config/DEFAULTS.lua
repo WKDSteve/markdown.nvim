@@ -39,7 +39,7 @@ local DEFAULTS = {
     char = "=",
   },
 
-  -- nvzone/menu integration (opt-in on the host side; entries provided by
+  -- context-menu integration (opt-in on the host side; entries provided by
   -- markdown.integrations.menu). Per-entry opt-out; set enable = false to
   -- provide no entries at all. See :help markdown.nvim (menu) if documented.
   menu = {

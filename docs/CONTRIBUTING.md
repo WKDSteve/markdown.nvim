@@ -62,7 +62,7 @@ search.
 | `lua/markdown/scope/` | Whole buffer vs. fenced sub-block, and the fallback fenced scanner |
 | `lua/markdown/tableview/` | The floating table browser and its renderer |
 | `lua/markdown/fenced_fix/`, `hl_options/` | Fenced-block repair and the highlighting options |
-| `lua/markdown/integrations/` | `menu.lua` — the nvzone/menu entries |
+| `lua/markdown/integrations/` | `menu.lua` — the context-menu entries |
 | `lua/markdown/bindings/` | Keymaps, user commands and the `FileType` autocommand that installs them |
 | `lua/markdown/config/` | `DEFAULTS.lua` and the runtime store |
 | `lua/markdown/util/` | notify, clipboard, ignore list, picker abstraction, path resolution, platform open, markdown-file collection |

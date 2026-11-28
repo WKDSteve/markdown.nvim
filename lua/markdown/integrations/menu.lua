@@ -1,8 +1,8 @@
 ---@module 'markdown.integrations.menu'
----@brief Context-aware menu entries for nvzone/menu (soft, opt-in integration).
+---@brief Context-aware menu entries (soft, opt-in integration).
 ---@description
 --- markdown.nvim does not depend on a menu plugin. Instead it *provides* a list
---- of entries in the shape nvzone/menu expects (`{ name, cmd, rtxt, icon }`, plus
+--- of entries in the context-menu entry shape (`{ name, cmd, rtxt, icon }`, plus
 --- `{ name = "separator" }`), and a host — typically the user's menu dispatcher —
 --- composes them into its own menu for markdown buffers, e.g.:
 --- >
@@ -96,7 +96,7 @@ end
 --- Returns an empty list when the integration (or every sub-entry) is disabled,
 --- so a host can safely `vim.list_extend` it unconditionally.
 ---@param opts? { force_fold?: boolean }  force_fold: include fold entries even off a heading
----@return table[]  nvzone/menu entry list (possibly empty)
+---@return table[]  context-menu entry list (possibly empty)
 function M.items(opts)
   opts = opts or {}
   local cfg = require("markdown.config").get()
